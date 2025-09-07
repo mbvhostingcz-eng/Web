@@ -12,107 +12,92 @@
 <meta property="og:url" content="https://example.com">
 <meta name="twitter:card" content="summary_large_image">
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
 <style>
-/* --- Reset --- */
+/* --- Reset a základ --- */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Arial', sans-serif; background:#fdf8f1; color:#3b2e2a; line-height:1.6; }
+body { font-family:'Arial',sans-serif; background:#fdf8f1; color:#3b2e2a; line-height:1.6; overflow-x:hidden; }
+
+/* --- Animace fade-in --- */
+.fade-in { opacity:0; transform: translateY(30px); transition: all 0.8s ease-out; }
+.fade-in.visible { opacity:1; transform: translateY(0); }
 
 /* --- Hlavička --- */
 header {
   background: linear-gradient(#fdf8f1, #f3e9de);
-  text-align: center;
-  padding: 3rem 1rem;
-  border-bottom: 8px solid #a97458;
-  position: relative;
+  text-align:center;
+  padding:3rem 1rem;
+  border-bottom:8px solid #a97458;
 }
-header h1 {
-  font-family: 'Georgia', serif;
-  font-size: 2.5rem;
-  color: #8b5e3c;
-  text-shadow: 2px 2px #d1b595;
-}
-header p {
-  font-size:1.2rem;
-  margin-top:0.5rem;
-  color:#5a3f32;
-}
-
-/* --- Dřevěné logo v CSS --- */
-.logo {
-  font-family: 'Georgia', serif;
-  font-size: 2.5rem;
-  color: #fff;
+header .logo {
+  font-family:'Georgia', serif;
+  font-size:3rem;
   background: linear-gradient(45deg, #a97458, #d1b595, #a97458);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px #8b5e3c;
-  margin-bottom: 0.5rem;
+  text-shadow:2px 2px #8b5e3c;
+  margin-bottom:0.5rem;
 }
+header p { font-size:1.2rem; margin-top:0.5rem; color:#5a3f32; }
 
 /* --- Galerie --- */
 section { padding:2rem; max-width:1000px; margin:auto; }
-.gallery { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
+.gallery { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:2rem; }
 .gallery img {
-  width:180px;
+  width:300px;
   border:6px solid #d1b595;
   border-radius:12px;
   cursor:pointer;
   transition:0.3s;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  box-shadow:2px 2px 12px rgba(0,0,0,0.25);
 }
 .gallery img:hover { transform:scale(1.05); }
 
-/* --- O truhláři --- */
-.about {
-  margin-top:2rem;
-  background: #fff8f0;
-  border: 4px solid #d1b595;
-  border-radius:12px;
-  padding: 1rem 2rem;
-  position: relative;
-}
-.about::before {
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  background: radial-gradient(circle at 20% 30%, rgba(217,180,123,0.2), transparent 70%);
-  border-radius:12px;
-}
-
-/* --- Kontakt --- */
-.contact {
+/* --- Textové sekce --- */
+.text-section {
   margin-top:2rem;
   background:#fff8f0;
   border:4px solid #d1b595;
   border-radius:12px;
-  padding:1rem 2rem;
+  padding:2rem;
   position:relative;
+  overflow:hidden;
 }
-.contact::before {
+.text-section::before {
   content:"";
   position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  background: radial-gradient(circle at 70% 20%, rgba(217,180,123,0.2), transparent 70%);
+  top:-50px; left:-50px;
+  width:150%; height:150%;
+  background: radial-gradient(circle at 20% 30%, rgba(217,180,123,0.2), transparent 70%);
+  transform: rotate(25deg);
   border-radius:12px;
 }
-.contact a { color:#3b2e2a; text-decoration:none; }
+.text-section h2 { color:#8b5e3c; margin-bottom:1rem; }
+.text-section p { font-size:1rem; line-height:1.5; }
 
 /* --- Mapy --- */
-.map { margin-top:2rem; text-align:center; }
-iframe { border:none; width:100%; max-width:600px; height:300px; border-radius:12px; }
+#map { height:350px; width:100%; max-width:600px; border-radius:12px; margin:auto; border:4px solid #d1b595; margin-top:2rem; }
 
 /* --- Facebook widget --- */
-.facebook-widget { margin-top:2rem; text-align:center; }
+.facebook-widget { margin-top:2rem; text-align:center; border:4px solid #d1b595; border-radius:12px; padding:1rem; background:#fff8f0; }
+
+/* --- Kontakt sekce --- */
+.contact { margin-top:2rem; text-align:center; border:4px solid #d1b595; border-radius:12px; padding:1.5rem; background:#fff8f0; display:flex; flex-direction:column; align-items:center; gap:0.8rem; }
+.contact a { text-decoration:none; color:#3b2e2a; font-weight:bold; display:flex; align-items:center; gap:8px; }
+.contact svg { width:20px; height:20px; fill:#8b5e3c; }
 
 /* --- Lightbox --- */
-.lightbox { position:fixed; display:none; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000; }
-.lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
+.lightbox { position:fixed; display:none; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:1000; }
+.lightbox img { max-width:90%; max-height:90%; border-radius:12px; box-shadow:0 0 25px rgba(0,0,0,0.6); }
 
 /* --- Responzivita --- */
-@media (max-width:600px) {
+@media(max-width:600px){
   .gallery img { width:45%; }
-  header h1 { font-size:2rem; }
+  header .logo { font-size:2rem; }
   header p { font-size:1rem; }
+  .text-section { padding:1rem; }
 }
 </style>
 </head>
@@ -124,8 +109,8 @@ iframe { border:none; width:100%; max-width:600px; height:300px; border-radius:1
 </header>
 
 <section>
-  <h2>Galerie</h2>
-  <div class="gallery">
+  <h2 class="fade-in">Galerie</h2>
+  <div class="gallery fade-in">
     <img src="https://i.imgur.com/37SQZKP.jpeg" alt="Výrobek 1">
     <img src="https://i.imgur.com/37SQZKP.jpeg" alt="Výrobek 2">
     <img src="https://i.imgur.com/37SQZKP.jpeg" alt="Výrobek 3">
@@ -133,44 +118,79 @@ iframe { border:none; width:100%; max-width:600px; height:300px; border-radius:1
     <img src="https://i.imgur.com/37SQZKP.jpeg" alt="Výrobek 5">
   </div>
 
-  <div class="about">
-    <h2>O truhláři</h2>
-    <p>Jsme malé truhlářství s vášní pro dřevo a kvalitu. Vyrábíme nábytek, renovujeme staré kusy a tvoříme zakázkové projekty na míru. Každý výrobek je pro nás umělecké dílo.</p>
+  <div class="text-section fade-in">
+    <h2>O nás</h2>
+    <p>Truhlářství Blažek je rodinné řemeslo s více než 20 lety zkušeností. Každý kus nábytku vyrábíme s maximální precizností a vášní pro dřevo.</p>
   </div>
 
-  <div class="contact">
-    <h2>Kontakt</h2>
-    <p>Email: <a href="mailto:Blazek-truhlar@seznam.cz">Blazek-truhlar@seznam.cz</a></p>
-    <p>Facebook: <a href="https://www.facebook.com/share/14HxRRCZATx/?mibextid=wwXIfr" target="_blank">Truhlářství Blažek</a></p>
+  <div class="text-section fade-in">
+    <h2>Naše služby</h2>
+    <p>Specializujeme se na zakázkový nábytek, renovace starého dřeva, výrobu skříní, stolů, židlí a drobných dekorací. Každý projekt přizpůsobujeme přáním zákazníka.</p>
   </div>
 
-  <div class="map">
-    <h2>Mapa</h2>
-    <iframe src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=Dolní+Slivno+118,29478,Czech+Republic" allowfullscreen></iframe>
+  <div class="text-section fade-in">
+    <h2>Příběh</h2>
+    <p>Zakladatel Blažek se od malička učil řemeslu od svého otce. Truhlářství je pro něj životní vášní a každý výrobek je jeho uměleckým dílem. Kvalita je pro nás vždy na prvním místě.</p>
+  </div>
+    <!-- --- Kontakt sekce s ikonami --->
+  <div class="contact fade-in">
+    <a href="mailto:Blazek-truhlar@seznam.cz">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M502.3 190.8L327.4 338.1c-15.5 13.6-38.1 13.5-53.5 0L9.7 190.8C3.5 185.3 0 177.7 0 169.6V96c0-26.5 21.5-48 48-48h416c26.5 0 48 21.5 48 48v73.6c0 8.1-3.5 15.7-9.7 21.2z"/>
+      </svg>
+      Blazek-truhlar@seznam.cz
+    </a>
+    <a href="https://www.facebook.com/truhlarstvi.blazek" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+        <path d="M279.14 288l14.22-92.66h-88.91V127.19c0-25.35 12.42-50.06 52.24-50.06H293V6.26S265.44 0 239.36 0c-73.2 0-121.36 44.38-121.36 124.72v70.62H56.89V288h61.11v224h92.7V288z"/>
+      </svg>
+      Facebook
+    </a>
   </div>
 
-  <div class="facebook-widget">
+  <!-- --- Leaflet mapa --->
+  <h2 class="fade-in">Mapa</h2>
+  <div id="map" class="fade-in"></div>
+
+  <!-- --- Facebook widget --->
+  <div class="facebook-widget fade-in">
     <h2>Facebook</h2>
     <div id="fb-root"></div>
-    <div class="fb-page" 
-      data-href="https://www.facebook.com/share/14HxRRCZATx/?mibextid=wwXIfr" 
-      data-tabs="timeline" 
-      data-width="500" 
-      data-height="500" 
-      data-small-header="false" 
-      data-adapt-container-width="true" 
-      data-hide-cover="false" 
-      data-show-facepile="true">
+    <div class="fb-page"
+         data-href="https://www.facebook.com/truhlarstvi.blazek"
+         data-tabs="timeline"
+         data-width="500"
+         data-height="500"
+         data-small-header="false"
+         data-adapt-container-width="true"
+         data-hide-cover="false"
+         data-show-facepile="true">
     </div>
   </div>
 </section>
 
+<!-- --- Lightbox --->
 <div class="lightbox" id="lightbox">
   <img src="" alt="Lightbox">
 </div>
 
+<!-- --- Leaflet JS --->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* --- Lightbox --- */
+// Souřadnice Dolní Slivno 118, 29478 (ověřit přes OSM)
+const map = L.map('map').setView([50.4786, 15.0461], 16);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([50.4786, 15.0461]).addTo(map)
+  .bindPopup('Truhlářství Blažek<br>Dolní Slivno 118, 29478')
+  .openPopup();
+</script>
+
+<!-- --- Lightbox JS --->
+<script>
 const lightbox = document.getElementById('lightbox');
 const images = document.querySelectorAll('.gallery img');
 const lbImage = lightbox.querySelector('img');
@@ -185,15 +205,32 @@ images.forEach(img => {
 lightbox.addEventListener('click', () => {
   lightbox.style.display = 'none';
 });
+</script>
 
-/* --- Facebook SDK --- */
-(function(d, s, id) {
+<!-- --- Scroll fade-in JS --->
+<script>
+function fadeInScroll() {
+  const faders = document.querySelectorAll('.fade-in');
+  faders.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 50){
+      el.classList.add('visible');
+    }
+  });
+}
+window.addEventListener('scroll', fadeInScroll);
+window.addEventListener('load', fadeInScroll);
+</script>
+
+<!-- --- Facebook SDK --->
+<script>
+(function(d, s, id){
   var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
+  if(d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v16.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  fjs.parentNode.insertBefore(js,fjs);
+}(document,'script','facebook-jssdk'));
 </script>
 
 </body>
