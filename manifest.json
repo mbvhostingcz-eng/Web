@@ -1,0 +1,22 @@
+{
+  "name": "Truhlářství Blažek",
+  "short_name": "Blažek",
+  "description": "Zakázková výroba nábytku z masivu – kvalita a poctivost.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#d1b595",
+  "theme_color": "#d1b595",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/BnSo4og.jpeg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/BnSo4og.jpeg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
