@@ -187,7 +187,42 @@ for(let i=0;i<30;i++){
 <div class="lightbox" id="lightbox">
   <img src="" alt="Lightbox">
 </div>
+<!-- HTML -->
+<div id="custom-cursor"></div>
 
+<style>
+/* Skrýt výchozí kurzor na PC */
+body {
+  cursor: none;
+}
+
+/* Vlastní kurzor */
+#custom-cursor {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  background: url('https://i.imgur.com/X7m2tpd.png') no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear;
+  z-index: 10000;
+}
+
+/* Skrýt kurzor na mobilu */
+@media (hover: none) and (pointer: coarse) {
+  #custom-cursor { display: none; }
+}
+</style>
+
+<script>
+// Jen na PC – sleduje myš
+const cursor = document.getElementById('custom-cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+</script>
 <!-- --- Leaflet JS --->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
