@@ -1,215 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Umělecké truhlářství Martin Blažek</title>
 <meta name="description" content="Úpravy a renovace nábytku na míru — Umělecké truhlářství Martin Blažek" />
-<meta name="theme-color" content="#ffffff" />
 <link rel="icon" type="image/png" href="https://i.imgur.com/BnSo4og.jpeg">
-
-<!-- Fonts (zachovány a přidán handwritten pro footer) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Patrick+Hand&display=swap" rel="stylesheet">
-
-<!-- Leaflet (ponecháno pro mapu) -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-:root {
-  --p-bg: #fbf8f3;           /* světlé pozadí */
-  --p-text: #1e1a17;
-  --p-accent: #d1b595;
-  --p-accent-dark: #8b5e3c;
-  --p-accent-light: #f7efe6;
-  --p-soft: #f4f3f0;
-  --p-transition-slow: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-  --p-transition-mid: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --p-transition-fast: all 0.2s ease;
-  --p-font-main: 'Montserrat', sans-serif;
-  --p-font-heading: 'Playfair Display', serif;
-  --p-font-logo: 'Cinzel', serif;
-  --p-font-hand: 'Patrick Hand', cursive;
+:root{
+  --bg: #fbf8f3;
+  --text: #1e1a17;
+  --muted: #7a6f63;
+  --accent: #d1b595;
+  --accent-dark:#8b5e3c;
+  --soft:#f4f3f0;
+  --hand:'Patrick Hand', cursive;
+  --ff-sans: 'Montserrat', sans-serif;
+  --ff-heading: 'Playfair Display', serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html,body { height:100%; }
-body {
-  background-color: var(--p-bg);
-  color: var(--p-text);
-  font-family: var(--p-font-main);
-  line-height: 1.8;
-  overflow-x: hidden;
-  font-weight: 300;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--ff-sans);
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  line-height:1.6;
 }
 
-/* custom cursor (ponecháno z původního) */
-#c-cursor {
-  position: fixed;
-  width: 35px;
-  height: 35px;
-  background: url('https://i.imgur.com/X7m2tpd.png') no-repeat center center;
-  background-size: contain;
-  pointer-events: none;
-  z-index: 100000;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
-  transition: transform 0.1s linear, opacity 0.3s ease;
-}
-#c-cursor.hidden { opacity: 0; }
-
-/* BACKGROUND ENGINE - dřevěné linky + wave + blobs */
-.bg-engine { position: fixed; inset: 0; z-index: -10; pointer-events: none; overflow: hidden; }
-
-/* subtle wood stripes */
-.wood-lines {
-  position:absolute; inset:0; z-index:-9; opacity:0.95; pointer-events:none;
+/* ---------- Background engine: wood lines + waves + blobs ---------- */
+.bg-engine{position:fixed;inset:0;z-index:-40;pointer-events:none;overflow:hidden}
+.wood-lines{
+  position:absolute;inset:0;opacity:0.95;
   background-image:
-    linear-gradient(90deg, rgba(139,94,60,0.01) 1px, transparent 1px 60px),
-    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.0));
-  background-size: 120px 120px;
-  animation: woodShift 40s linear infinite;
+    linear-gradient(90deg, rgba(139,94,60,0.01) 1px, transparent 1px 80px),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));
+  background-size: 140px 140px;
+  animation: woodMove 36s linear infinite;
 }
-@keyframes woodShift { from{background-position-x:0} to{background-position-x:240px} }
+@keyframes woodMove{from{background-position-x:0}to{background-position-x:280px}}
+.wood-wave{
+  position:absolute;width:200%;height:100%;background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 800'%3E%3Cpath fill='%23d1b595' d='M0,400 C200,350 400,450 600,400 C800,350 1000,450 1200,400 C1400,350 1600,450 1800,400 L1800,800 L0,800 Z'/%3E%3C/svg%3E");background-repeat:repeat-x;background-position:bottom;opacity:0.06}
+.w-1{bottom:0;animation:waveMove 28s linear infinite}
+.w-2{bottom:60px;opacity:0.03;animation:waveMove 44s linear infinite reverse}
+@keyframes waveMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* gentle wood wave svg (původní styl) */
-.wood-wave {
-  position:absolute; width:200%; height:100%; opacity:0.08;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 800'%3E%3Cpath fill='%23d1b595' d='M0,400 C200,350 400,450 600,400 C800,350 1000,450 1200,400 C1400,350 1600,450 1800,400 L1800,800 L0,800 Z'/%3E%3C/svg%3E");
-  background-repeat: repeat-x; background-position: bottom;
-}
-.w-1 { bottom: 0; animation: waveMove 30s linear infinite; opacity:0.07; }
-.w-2 { bottom: 60px; opacity: 0.04; animation: waveMove 45s linear infinite reverse; }
-@keyframes waveMove { from { transform: translateX(0);} to { transform: translateX(-50%); } }
-
-/* soft drifting blobs */
-.blobs { position:absolute; inset:0; z-index:-8; pointer-events:none; }
-.blob {
-  position:absolute;border-radius:50%;filter:blur(60px) saturate(110%);opacity:0.10;mix-blend-mode:screen;
-  animation: drift 24s ease-in-out infinite;
-}
-.blob.b1{width:560px;height:560px;left:-6%;top:6%;background:linear-gradient(120deg,#fff7f0,#d9c7ad);}
-.blob.b2{width:420px;height:420px;right:-8%;bottom:6%;background:linear-gradient(120deg,#fffefc,#e6d3b8);opacity:0.07;}
+/* Blobs */
+.blobs{position:absolute;inset:0;z-index:-38;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px) saturate(110%);opacity:0.12;mix-blend-mode:screen;animation:drift 26s ease-in-out infinite}
+.blob.b1{width:640px;height:640px;left:-8%;top:6%;background:linear-gradient(120deg,#fff7f0,#d9c7ad)}
+.blob.b2{width:420px;height:420px;right:-6%;bottom:6%;background:linear-gradient(120deg,#fffefc,#e6d3b8);opacity:0.08}
 @keyframes drift{0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
 
-/* bubble field (scroll-triggered, non-intrusive) */
-#bubble-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5; pointer-events: none; overflow: visible; }
-.b-drop {
-  position: absolute;
-  background: radial-gradient(circle at 30% 30%, rgba(209,181,149,0.28), rgba(139,94,60,0.08));
-  border-radius: 50%;
-  pointer-events: none;
-  animation: b-float linear forwards;
-  filter: blur(0.6px);
+/* ---------- Scroll bubbles (more visible, non-intrusive) ---------- */
+.scroll-bubbles{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:visible}
+.bubble{
+  position:absolute;border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.85), rgba(209,181,149,0.4));
+  opacity:0.12;filter:blur(1px);pointer-events:none;animation:bubbleRise linear forwards;
 }
-@keyframes b-float {
-  0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
-  15% { opacity: 0.22; }
-  100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+@keyframes bubbleRise{
+  0%{transform:translateY(10vh) scale(0.6);opacity:0}
+  10%{opacity:0.08}
+  90%{opacity:0.06}
+  100%{transform:translateY(-25vh) scale(1.3);opacity:0}
 }
 
-/* loader (keep) */
-.p-loader { position: fixed; inset:0; background: #fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:200000; transition: opacity 1.2s cubic-bezier(0.7,0,0.3,1); }
-.p-loader img{width:60px;margin-bottom:20px; animation:p-pulse 2s infinite ease-in-out;}
-@keyframes p-pulse {0%,100%{opacity:0.3;transform:scale(0.95)}50%{opacity:1;transform:scale(1.05)}}
-.l-bar{width:200px;height:1px;background:var(--p-soft);position:relative;overflow:hidden}
-.l-prog{position:absolute;top:0;left:0;height:100%;width:0;background:var(--p-accent);transition:width 0.4s ease}
-
-/* NAV */
-nav{position:fixed;top:0;width:100%;padding:28px 60px;display:flex;justify-content:space-between;align-items:center;z-index:1000;transition:var(--p-transition-slow)}
-nav.scrolled{padding:14px 60px;background:rgba(255,255,255,0.9);backdrop-filter: blur(10px);border-bottom:1px solid rgba(209,181,149,0.08)}
-.n-brand{font-family:var(--p-font-logo);font-size:1.4rem;font-weight:700;letter-spacing:3px;color:var(--p-text);text-decoration:none}
-.n-links{display:flex;gap:32px}
-.n-links a{ text-decoration:none;color:var(--p-text);font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;font-weight:500;position:relative;padding:6px 0}
-.n-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--p-accent-dark);transition:var(--p-transition-mid)}
-.n-links a:hover::after{width:100%}
+/* ---------- Navbar / header ---------- */
+nav{position:fixed;left:16px;right:16px;top:16px;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(255,255,255,0.9);border-radius:12px;z-index:60;box-shadow:0 8px 30px rgba(15,13,12,0.06)}
+.brand{display:flex;gap:12px;align-items:center;font-family:var(--ff-heading);font-weight:700;color:var(--text);text-decoration:none}
+.brand img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+.navlinks{display:flex;gap:14px}
+.navlinks a{text-decoration:none;color:var(--muted);font-weight:600;padding:8px 10px;border-radius:8px}
+.navlinks a:hover{color:var(--text);background:rgba(0,0,0,0.03);transform:translateY(-3px)}
 
 /* header hero */
-header{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:radial-gradient(circle at center, rgba(255,255,255,0) 0%, rgba(253,248,241,0.6) 100%)}
-.h-wrap{overflow:hidden}
-.h-title{font-family:var(--p-font-heading);font-size:6vw;line-height:1.05;color:var(--p-text);font-weight:400;opacity:0;transform:translateY(100px)}
-.h-sub{font-size:1rem;letter-spacing:8px;text-transform:uppercase;margin-top:20px;color:var(--p-accent-dark);opacity:0;transform:translateY(50px)}
+header{min-height:72vh;display:flex;align-items:center;justify-content:center;padding:3.5rem 1.5rem;text-align:center}
+.hero-card{max-width:1100px;padding:28px;border-radius:16px;background:linear-gradient(180deg,#fff,#fbfaf9);box-shadow:0 20px 60px rgba(15,13,12,0.06);border:1px solid rgba(15,13,12,0.03)}
+h1{font-family:var(--ff-heading);font-size:clamp(2rem,5vw,3.6rem);margin-bottom:8px;color:var(--text)}
+.lead{color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
 
-/* sections */
-section{padding:140px 10vw;opacity:0;transform:translateY(80px);transition:var(--p-transition-slow)}
-section.active{opacity:1;transform:translateY(0)}
-.s-head{font-family:var(--p-font-heading);font-size:3.1rem;margin-bottom:40px;position:relative;color:var(--p-text)}
-.s-head::before{content:'01';position:absolute;top:-40px;left:0;font-family:var(--p-font-main);font-size:0.8rem;letter-spacing:4px;color:var(--p-accent)}
+/* CTA */
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{padding:12px 16px;border-radius:12px;background:var(--accent);border:none;color:#1a120f;font-weight:700;text-decoration:none;cursor:pointer;box-shadow:0 12px 30px rgba(209,181,149,0.12)}
+.btn.secondary{background:transparent;border:1px solid rgba(0,0,0,0.04);color:var(--muted)}
 
-/* text blocks */
-.p-text-block{max-width:900px;font-size:1.05rem;color:#555}
-
-/* slider (hero) - upraveno pro 5min interval */
-.p-slider{width:100%;height:70vh;margin:60px 0;position:relative;overflow:hidden;border-radius:8px;border:1px solid rgba(30,30,30,0.03);background: #fff}
-.p-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 1.2s ease, transform 8s linear}
+/* ---------- Work / Slider / Gallery ---------- */
+.section{padding:80px 6vw}
+.s-head{font-family:var(--ff-heading);font-size:1.9rem;margin-bottom:12px}
+.p-slider{width:100%;height:60vh;border-radius:12px;overflow:hidden;position:relative;margin-top:30px;border:1px solid rgba(0,0,0,0.03);background:#fff;box-shadow:0 18px 50px rgba(15,13,12,0.04)}
+.p-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 1.2s ease, transform 10s cubic-bezier(.2,.9,.2,.95)}
 .p-slide.active{opacity:1;transform:scale(1)}
-.p-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.38), transparent)}
+.p-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.3), transparent)}
 
-/* modal full gallery (g-full) adjusted to light theme */
-.g-full{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(250,250,248,0.98);z-index:6000;display:none;padding:60px 4vw;overflow-y:auto}
-.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-.g-item{aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:#fff;border:1px solid rgba(30,30,30,0.03)}
-.g-item img{width:100%;height:100%;object-fit:cover;transition:var(--p-transition-slow)}
-.g-item:hover img{transform:scale(1.04)}
-.g-close{position:fixed;top:30px;right:40px;font-size:2.2rem;z-index:6001;cursor:pointer;color:var(--p-text)}
+/* gallery CTA wrapper (the fancy orbit ring and pulsing) */
+.gallery-cta{
+  position:relative;margin-top:18px;display:flex;justify-content:center;align-items:center;
+  pointer-events:none; /* decorative layer */
+}
+.gallery-cta .ring{
+  position:absolute;width:160px;height:160px;border-radius:50%;border:2px solid rgba(0,0,0,0.04);display:flex;justify-content:center;align-items:center;
+  animation: ringRotate 12s linear infinite;
+  box-shadow: 0 8px 30px rgba(209,181,149,0.06);
+}
+@keyframes ringRotate{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+/* orbiting dot */
+.gallery-cta .orbit{
+  position:absolute;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 6px 18px rgba(209,181,149,0.28);
+  top:calc(50% - 80px);left:calc(50% + 78px);transform-origin: center -78px;
+  animation: orbit 6s linear infinite;
+}
+@keyframes orbit{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+/* pulsing glow to attract attention */
+.gallery-cta .pulse{
+  position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle, rgba(209,181,149,0.08), transparent 40%);animation:pulseGlow 2.6s ease-in-out infinite;pointer-events:none;
+}
+@keyframes pulseGlow{0%{transform:scale(.9);opacity:0.9}50%{transform:scale(1.05);opacity:0.6}100%{transform:scale(.9);opacity:0.9}}
 
-/* services grid (kept layout) */
-.s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#eee;margin-top:40px}
-.s-item{background:#fff;padding:48px;transition:var(--p-transition-mid)}
-.s-item:hover{background:var(--p-accent-light)}
-.s-item h3{font-family:var(--p-font-heading);font-size:1.3rem;margin-bottom:10px}
+/* gallery grid hidden by default but on modal open we show full screen */
+.g-full{position:fixed;inset:0;background:rgba(250,250,248,0.98);z-index:8000;display:none;padding:48px 4vw;overflow:auto}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.g-item{border-radius:8px;overflow:hidden;background:#fff;border:1px solid rgba(0,0,0,0.03);aspect-ratio:4/5}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease, filter .4s}
+.g-item:hover img{transform:scale(1.06);filter:brightness(1.02)}
+.g-close{position:fixed;top:24px;right:30px;font-size:2rem;cursor:pointer;color:var(--text);z-index:8001}
 
-/* contact zone */
-.contact-zone{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px}
-.c-info-card{padding:40px;background:var(--p-soft);border-radius:8px}
-.c-info-row{margin-bottom:20px}
-.c-info-row small{display:block;text-transform:uppercase;letter-spacing:2px;color:var(--p-accent-dark;margin-bottom:10px);font-size:0.7rem}
-.c-info-row p{font-size:1.2rem;font-family:var(--p-font-heading);color:var(--p-text)}
+/* gallery teaser thumbnails below hero (click to open) */
+.gallery-teaser{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:18px}
+.gallery-teaser .thumb{border-radius:8px;overflow:hidden;height:0;padding-bottom:75%;position:relative;background:#faf8f6}
+.gallery-teaser img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;transition:transform .5s}
+.gallery-teaser img:hover{transform:scale(1.04)}
 
-/* cert */
-.cert-section{padding:80px 0;text-align:center;border-top:1px solid #eee}
-.cert-frame{max-width:420px;margin:30px auto;padding:20px;border:1px solid var(--p-accent);background:#fff;border-radius:8px}
-.cert-frame img{width:100%;height:auto}
+/* certificate field (no title) */
+.cert-field{margin:48px auto 12px;max-width:720px;padding:16px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,0.03);display:flex;align-items:center;justify-content:center;min-height:220px}
+.cert-field img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
 
-/* map */
-#map-canvas{width:100%;height:520px;margin-top:50px;border-radius:8px;overflow:hidden;filter:grayscale(1);transition:var(--p-transition-slow)}
-#map-canvas:hover{filter:grayscale(0)}
+/* contact / fb widget */
+.contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
+.contact-card{padding:18px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,0.03)}
+.fb-wrap{border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,0.03);background:#fff;padding:6px}
 
 /* footer */
-footer{background:#111;padding:100px 10vw 60px;color:#888}
-.f-main{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;border-bottom:1px solid #222;padding-bottom:40px}
-.f-brand{color:#fff;font-family:var(--p-font-logo);font-size:1.4rem;margin-bottom:12px}
-.f-col h4{color:#fff;margin-bottom:12px;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase}
-.f-links{list-style:none}
-.f-links li{margin-bottom:10px}
-.f-links a{color:inherit;text-decoration:none;transition:var(--p-transition-fast)}
-.f-links a:hover{color:var(--p-accent);padding-left:5px}
-.f-bottom{padding-top:30px;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;letter-spacing:1px;color:#aaa}
-.made-by{font-family:var(--p-font-hand);font-size:0.9rem;color:#ccc}
+footer{padding:34px 6vw;background:transparent;margin-top:18px;color:var(--muted)}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.footer-brand{font-family:var(--ff-heading);color:var(--text);font-weight:700}
+.made-by{font-family:var(--hand);color:var(--muted);font-size:0.95rem}
 
-/* responsive */
-@media (max-width:1200px){
-  .s-grid, .contact-zone, .f-main { grid-template-columns: 1fr; gap: 30px; }
-  .h-title { font-size: 10vw; }
-  nav{padding:18px}
-  .p-slider{height:48vh}
-  #map-canvas{height:360px}
+/* responsiveness */
+@media (max-width:900px){
+  .p-slider{height:44vh}
+  .gallery-cta .ring{width:120px;height:120px}
+  .gallery-cta .pulse{width:150px;height:150px}
+  .contact-grid{grid-template-columns:1fr}
+  nav{left:10px;right:10px}
 }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div class="p-loader" id="loader">
-  <img src="https://i.imgur.com/BnSo4og.jpeg" alt="Logo">
-  <div class="l-bar"><div class="l-prog" id="l-prog"></div></div>
-</div>
-
-<!-- custom cursor -->
-<div id="c-cursor"></div>
-
-<!-- BACKGROUND ENGINE -->
+<!-- background -->
 <div class="bg-engine" aria-hidden="true">
   <div class="wood-lines"></div>
   <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
@@ -217,13 +174,13 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   <div class="wood-wave w-2"></div>
 </div>
 
-<!-- scroll bubble container -->
-<div id="bubble-field"></div>
+<!-- scroll bubbles layer -->
+<div class="scroll-bubbles" id="scrollBubbles" aria-hidden="true"></div>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="n-brand">MB BLAŽEK</a>
-  <div class="n-links">
+<!-- nav -->
+<nav>
+  <a class="brand" href="#"><img src="https://i.imgur.com/BnSo4og.jpeg" alt="logo">Umělecké truhlářství Martin Blažek</a>
+  <div class="navlinks">
     <a href="#about">O nás</a>
     <a href="#services">Služby</a>
     <a href="#work">Portfolio</a>
@@ -231,103 +188,112 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   </div>
 </nav>
 
-<!-- HEADER -->
+<!-- header -->
 <header>
-  <div class="h-wrap"><h1 class="h-title" id="h-t">Umělecké truhlářství Martin Blažek</h1></div>
-  <div class="h-wrap"><p class="h-sub" id="h-s">Úpravy nábytku · renovace · přestavby na míru</p></div>
+  <div class="hero-card" role="banner">
+    <h1>Umělecké truhlářství Martin Blažek</h1>
+    <div class="lead">Úpravy nábytku · renovace · přestavby na míru</div>
+    <div style="margin-top:14px" class="cta-row">
+      <button class="btn" onclick="document.querySelector('#work').scrollIntoView({behavior:'smooth'})">Zobrazit portfolio</button>
+      <a class="btn secondary" href="#contact">Kontakt</a>
+    </div>
+    <div style="margin-top:12px;color:var(--muted)">Klikni na hlavní obrázek pro vstup do galerie</div>
+  </div>
 </header>
 
-<!-- ABOUT -->
-<section id="about">
+<!-- about -->
+<section class="section" id="about">
   <h2 class="s-head">O nás</h2>
-  <div class="p-text-block">
-    <p>Specializujeme se na úpravy a renovace nábytku — od drobných oprav až po kompletní přestavby a custom řešení. Pracujeme s respektem k materiálu a tradici, ale s moderní technikou a citlivým designem.</p>
-    <p style="margin-top:20px;">Nabízíme konzultaci, odhad a návrh řešení přesně podle vašich potřeb. Věnujeme pozornost detailu a dlouhodobé funkčnosti.</p>
-  </div>
+  <p style="max-width:900px;color:var(--muted)">Specializujeme se na úpravy a renovace nábytku — drobné i rozsáhlé zásahy, opravy, přelaky, výměny kování a kompletní přestavby kusů nábytku podle přání zákazníka. Každý kus je ošetřen s důrazem na detail a dlouhou životnost.</p>
 </section>
 
-<!-- WORK (slider hero) -->
-<section id="work" style="padding: 0;">
-  <div class="p-slider" id="p-slider" role="region" aria-label="Hlavní portfolio slideshow"></div>
+<!-- work / slider -->
+<section class="section" id="work">
+  <h2 class="s-head">Portfolio</h2>
+
+  <div class="p-slider" id="heroSlider" role="region" aria-label="Hlavní slideshow">
+    <!-- slides injected by JS -->
+  </div>
+
+  <!-- gallery CTA (orbit + pulse) -->
+  <div class="gallery-cta" aria-hidden="true">
+    <div class="pulse" aria-hidden="true"></div>
+    <div class="ring" aria-hidden="true"></div>
+    <div class="orbit" aria-hidden="true"></div>
+  </div>
+
+  <!-- teaser thumbnails (show first 6) -->
+  <div class="gallery-teaser" id="galleryTeaser" style="pointer-events:auto"></div>
 </section>
 
 <!-- full gallery modal -->
-<div class="g-full" id="g-full" aria-hidden="true">
-  <div class="g-close" id="g-close" aria-label="Zavřít galerii">&times;</div>
-  <h2 class="s-head" style="margin-bottom: 30px;">Galerie prací</h2>
-  <div class="g-grid" id="g-grid"></div>
+<div class="g-full" id="gFull" aria-hidden="true">
+  <div class="g-close" id="gClose" aria-label="Zavřít galerii">&times;</div>
+  <div class="g-grid" id="gGrid"></div>
 </div>
 
-<!-- SERVICES -->
-<section id="services">
-  <h2 class="s-head" style="margin-top: 20px;">Služby</h2>
-  <div class="p-text-block"><p>Nabízíme především úpravy nábytku: renovace povrchů, úpravy rozměrů, výměnu kování, rekonstrukce konstrukcí a custom design. Níže jsou hlavní položky.</p></div>
-  <div class="s-grid">
-    <div class="s-item"><h3>Renovace povrchů</h3><p>Obnova laku, moření, povrchové úpravy a odstranění drobných poškození.</p></div>
-    <div class="s-item"><h3>Úprava rozměrů</h3><p>Přizpůsobení výšky, hloubky nebo šířky pro vaše prostory.</p></div>
-    <div class="s-item"><h3>Výměna kování</h3><p>Moderní i historické kování dle stylu kusu.</p></div>
-    <div class="s-item"><h3>Rekonstrukce konstrukce</h3><p>Opravy rámů, zesílení spojů, výměna poškozených částí.</p></div>
-    <div class="s-item"><h3>Custom design</h3><p>Přestavby a doplňky navržené a vyrobené na míru.</p></div>
-    <div class="s-item"><h3>Konzultace a odhad</h3><p>Posouzení stavu, návrh řešení a cenová kalkulace.</p></div>
+<!-- services -->
+<section class="section" id="services">
+  <h2 class="s-head">Služby</h2>
+  <div style="max-width:1000px;color:var(--muted)">
+    <p>Nabízíme především úpravy nábytku: renovace povrchů, úpravy rozměrů, výměnu kování, rekonstrukci konstrukcí a custom design. Poskytneme konzultaci, odhad a návrh řešení.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px">
+      <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid rgba(0,0,0,0.03)"><strong>Renovace povrchů</strong><div style="color:var(--muted)">Obnova laku, moření, odstraňování poškození.</div></div>
+      <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid rgba(0,0,0,0.03)"><strong>Úprava rozměrů</strong><div style="color:var(--muted)">Zkracování, přizpůsobení pro váš prostor.</div></div>
+      <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid rgba(0,0,0,0.03)"><strong>Výměna kování</strong><div style="color:var(--muted)">Moderní i historické kování.</div></div>
+      <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid rgba(0,0,0,0.03)"><strong>Rekonstrukce konstrukce</strong><div style="color:var(--muted)">Opravy rámů, zesílení spojů.</div></div>
+    </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
+<!-- contact -->
+<section class="section" id="contact">
   <h2 class="s-head">Kontakt</h2>
-  <div class="contact-zone">
-    <div class="c-info-card">
-      <div class="c-info-row"><small>Lokalita</small><p>Dolní Slivno 118, 294 78</p></div>
-      <div class="c-info-row"><small>Email</small><p>Blazek-truhlar@seznam.cz</p></div>
-      <div class="c-info-row"><small>Sociální sítě</small><p>Facebook a další — viz widget vedle.</p></div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div style="margin-bottom:10px"><small style="text-transform:uppercase;color:var(--muted)">Adresa</small><div style="font-family:var(--ff-heading);margin-top:6px">Dolní Slivno 118, 294 78</div></div>
+      <div style="margin-bottom:10px"><small style="text-transform:uppercase;color:var(--muted)">Email</small><div style="font-family:var(--ff-heading);margin-top:6px">Blazek-truhlar@seznam.cz</div></div>
+      <div><small style="text-transform:uppercase;color:var(--muted)">Telefon</small><div style="font-family:var(--ff-heading);margin-top:6px">+420 123 456 789</div></div>
     </div>
 
-    <!-- FB widget -->
-    <div class="p-text-block">
-      <div id="fb-widget-placeholder" style="border-radius:6px;overflow:hidden;border:1px solid rgba(30,30,30,0.03);background:#fff;padding:8px">
-        <!-- iframe inserted by JS -->
-      </div>
+    <div class="fb-wrap" id="fbWidgetWrap">
+      <!-- FB iframe injected by JS -->
     </div>
   </div>
 </section>
 
-<!-- CERTIFICATE -->
-<div class="cert-section">
-  <h3>Certifikát</h3>
-  <div class="cert-frame">
-    <img src="https://i.imgur.com/certifikat.png" alt="Certifikát Umělecké truhlářství">
+<!-- certificate field (no label) -->
+<div style="display:flex;justify-content:center;padding:24px 6vw">
+  <div class="cert-field">
+    <img id="certImg" src="https://i.imgur.com/certifikat.png" alt="certifikát">
   </div>
 </div>
 
-<!-- MAP -->
-<div id="map-canvas"></div>
+<!-- map -->
+<div style="padding:0 6vw 40px"><div id="map-canvas" style="height:420px;border-radius:8px;overflow:hidden"></div></div>
 
-<!-- FOOTER -->
+<!-- footer -->
 <footer>
-  <div class="f-main">
-    <div><span class="f-brand">MB BLAŽEK</span><p>Úpravy nábytku · renovace · přestavby</p></div>
-    <div class="f-col"><h4>Rychlé</h4><ul class="f-links"><li><a href="#services">Služby</a></li><li><a href="#work">Portfolio</a></li></ul></div>
-    <div class="f-col"><h4>Odkazy</h4><ul class="f-links"><li><a href="#">Instagram</a></li><li><a href="#">Neocities</a></li></ul></div>
-    <div class="f-col"><h4>Kontakt</h4><p>Dolní Slivno 118<br>Mladá Boleslav</p></div>
+  <div class="footer-grid">
+    <div><div class="footer-brand">Umělecké truhlářství Martin Blažek</div><div style="color:var(--muted);margin-top:8px">Úpravy nábytku — ruční práce s citem pro detail.</div></div>
+    <div><strong>Rychlé</strong><ul style="list-style:none;padding-left:0;color:var(--muted);margin-top:8px"><li><a href="#services" style="text-decoration:none;color:var(--muted)">Služby</a></li><li><a href="#work" style="text-decoration:none;color:var(--muted)">Portfolio</a></li></ul></div>
+    <div><strong>Kontakt</strong><div style="color:var(--muted);margin-top:8px">Dolní Slivno 118<br>Mladá Boleslav</div></div>
   </div>
-  <div class="f-bottom">
-    <p>&copy; 2025 Umělecké truhlářství Martin Blažek. Všechna práva vyhrazena.</p>
-    <p class="made-by">Made by Imagine</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted)">
+    <div>&copy; 2025 Umělecké truhlářství Martin Blažek</div>
+    <div class="made-by" style="font-family:var(--hand)">Made by Imagine</div>
   </div>
 </footer>
 
-<!-- Leaflet -->
+<!-- gallery modal close control -->
+<!-- JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
-(function() {
-  /* ---------- KONFIGURACE ---------- */
-  const FB_PAGE_URL = 'https://m.facebook.com/100083111833665/';
-  const CERT_URL = 'https://i.imgur.com/certifikat.png';
+(function(){
+  /* ---------- KONFIG ---------- */
+  const FB_PAGE = 'https://m.facebook.com/100083111833665/';
   const SLIDE_INTERVAL = 300000; // 5 minutes
-
-  /* ---------- GALERIE OBRAZKU (PRECISE LIST) ---------- */
-  const images = [
+  const IMAGES = [
 "https://i.imgur.com/8TPuZpS.jpeg","https://i.imgur.com/CNhz3zG.jpeg","https://i.imgur.com/RKbJDDL.jpeg",
 "https://i.imgur.com/hzAIRpH.jpeg","https://i.imgur.com/KQJO6mJ.jpeg","https://i.imgur.com/yNnS8sy.jpeg",
 "https://i.imgur.com/U8UYy3P.jpeg","https://i.imgur.com/JQAPijW.jpeg","https://i.imgur.com/X8LKY9P.jpeg",
@@ -353,178 +319,160 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 "https://i.imgur.com/MF7dhcC.jpeg"
   ];
 
-  /* ---------- cursor behaviour (keep) ---------- */
-  const cursor = document.getElementById('c-cursor');
-  let cursorActive = false;
-  document.addEventListener('mousemove', e => {
-    if(!cursorActive){ cursor.classList.remove('hidden'); cursorActive = true; }
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  document.addEventListener('mouseleave', () => { cursor.classList.add('hidden'); cursorActive = false; });
+  /* ---------- hero slider ---------- */
+  const hero = document.getElementById('heroSlider');
+  const HERO_COUNT = Math.min(8, IMAGES.length);
+  let current = 0;
+  let slideTimer = null;
 
-  /* ---------- loader prog ---------- */
-  const loader = document.getElementById('loader');
-  const prog = document.getElementById('l-prog');
-  let pVal = 0;
-  const iInterval = setInterval(() => {
-    pVal += Math.random() * 15;
-    if(pVal >= 100){
-      pVal = 100; clearInterval(iInterval);
-      setTimeout(()=>{ loader.style.opacity = '0'; setTimeout(()=> loader.style.display = 'none', 1200); startIntro(); }, 500);
-    }
-    prog.style.width = pVal + '%';
-  }, 100);
-
-  function startIntro(){
-    const t = document.getElementById('h-t');
-    const s = document.getElementById('h-s');
-    t.style.opacity = '1'; t.style.transform = 'translateY(0)'; t.style.transition = 'all 1.2s cubic-bezier(0.19,1,0.22,1)';
-    setTimeout(()=>{ s.style.opacity='1'; s.style.transform='translateY(0)'; s.style.transition='all 1.2s cubic-bezier(0.19,1,0.22,1)'; }, 300);
-  }
-
-  /* ---------- reveal on scroll ---------- */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('section').forEach(s => observer.observe(s));
-
-  window.addEventListener('scroll', () => {
-    const n = document.getElementById('nav');
-    n.classList.toggle('scrolled', window.scrollY > 50);
-  });
-
-  /* ---------- scroll-trigger bubbles (discreet) ---------- */
-  let lastScroll = 0;
-  const bCont = document.getElementById('bubble-field');
-  window.addEventListener('scroll', () => {
-    let now = window.pageYOffset;
-    let diff = Math.abs(now - lastScroll);
-    if(diff > 60){ // control frequency
-      // create 1-2 bubbles only
-      const count = Math.random() > 0.6 ? 2 : 1;
-      for(let i=0;i<count;i++) createBubble();
-    }
-    lastScroll = now;
-  });
-
-  function createBubble(){
-    const b = document.createElement('div');
-    b.className = 'b-drop';
-    let size = Math.floor(Math.random() * 36) + 20; // 20-56px
-    b.style.width = size + 'px';
-    b.style.height = size + 'px';
-    b.style.left = (10 + Math.random() * 80) + 'vw';
-    b.style.top = (80 + Math.random() * 15) + 'vh';
-    b.style.animationDuration = (3 + Math.random() * 2) + 's';
-    b.style.opacity = (0.04 + Math.random() * 0.06).toString();
-    bCont.appendChild(b);
-    setTimeout(() => b.remove(), 4800);
-  }
-
-  /* ---------- hero slider: use first N images; auto-change every 5min ---------- */
-  const slider = document.getElementById('p-slider');
-  let slideIdx = 0;
-  const HERO_COUNT = Math.min(8, images.length);
-
-  function initSlider(){
-    // create hero slides (first HERO_COUNT)
+  function buildHero(){
     for(let i=0;i<HERO_COUNT;i++){
-      const div = document.createElement('div');
-      div.className = 'p-slide' + (i===0 ? ' active' : '');
-      div.style.backgroundImage = `url(${images[i]})`;
-      div.innerHTML = '<div class="p-slide-overlay"></div>';
-      // click to open full gallery modal
-      div.addEventListener('click', openGallery);
-      slider.appendChild(div);
+      const d = document.createElement('div');
+      d.className = 'p-slide' + (i===0 ? ' active' : '');
+      d.style.backgroundImage = `url(${IMAGES[i]})`;
+      d.setAttribute('data-idx', i);
+      d.addEventListener('click', openGallery);
+      hero.appendChild(d);
     }
-    // auto rotate every 5 minutes
-    setInterval(() => {
-      const slides = document.querySelectorAll('.p-slide');
-      slides[slideIdx].classList.remove('active');
-      slideIdx = (slideIdx + 1) % slides.length;
-      slides[slideIdx].classList.add('active');
-    }, SLIDE_INTERVAL);
+    // set interval
+    slideTimer = setInterval(()=>{ nextSlide(); }, SLIDE_INTERVAL);
   }
-  initSlider();
+  function nextSlide(){
+    const slides = hero.querySelectorAll('.p-slide');
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }
+  buildHero();
 
-  /* ---------- full gallery modal (g-full) ---------- */
-  const gFull = document.getElementById('g-full');
-  const gGrid = document.getElementById('g-grid');
-  const gClose = document.getElementById('g-close');
+  /* ---------- teaser thumbnails (first 6) ---------- */
+  const teaser = document.getElementById('galleryTeaser');
+  function buildTeaser(){
+    const count = Math.min(6, IMAGES.length);
+    for(let i=0;i<count;i++){
+      const w = document.createElement('div');
+      w.className = 'thumb';
+      const img = document.createElement('img');
+      img.src = IMAGES[i];
+      img.alt = `Práce ${i+1}`;
+      img.loading = 'lazy';
+      img.addEventListener('click', openGallery);
+      w.appendChild(img);
+      teaser.appendChild(w);
+    }
+  }
+  buildTeaser();
 
+  /* ---------- gallery modal ---------- */
+  const gFull = document.getElementById('gFull');
+  const gGrid = document.getElementById('gGrid');
+  const gClose = document.getElementById('gClose');
   function openGallery(){
-    // fill grid if empty (so we don't recreate unnecessarily)
-    gGrid.innerHTML = '';
-    images.forEach(src => {
-      const wrap = document.createElement('div');
-      wrap.className = 'g-item';
-      wrap.innerHTML = `<img src="${src}" loading="lazy" alt="Práce">`;
-      // click on image opens in new tab
-      wrap.addEventListener('click', ()=> window.open(src, '_blank'));
-      gGrid.appendChild(wrap);
-    });
+    // fill grid if empty
+    if(gGrid.children.length === 0){
+      IMAGES.forEach((src, idx)=>{
+        const item = document.createElement('div');
+        item.className = 'g-item';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Práce ${idx+1}`;
+        img.loading = 'lazy';
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', ()=> window.open(src, '_blank'));
+        item.appendChild(img);
+        gGrid.appendChild(item);
+      });
+    }
     gFull.style.display = 'block';
     gFull.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
   }
-
-  gClose.addEventListener('click', () => {
+  gClose.addEventListener('click', closeGallery);
+  function closeGallery(){
     gFull.style.display = 'none';
     gFull.setAttribute('aria-hidden','true');
     document.body.style.overflow = 'auto';
+  }
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeGallery(); });
+
+  /* ---------- orbit/pulse attention: pause on modal open ---------- */
+  function pauseOrbit(p){
+    const ring = document.querySelector('.gallery-cta .ring');
+    const orbit = document.querySelector('.gallery-cta .orbit');
+    const pulse = document.querySelector('.gallery-cta .pulse');
+    if(!ring) return;
+    if(p){ ring.style.animationPlayState = 'paused'; orbit.style.animationPlayState='paused'; pulse.style.animationPlayState='paused'; }
+    else { ring.style.animationPlayState = 'running'; orbit.style.animationPlayState='running'; pulse.style.animationPlayState='running'; }
+  }
+  // pause orbit when modal is open
+  const observerModal = new MutationObserver(()=>{ pauseOrbit(gFull.style.display === 'block'); });
+  observerModal.observe(gFull, {attributes:true,attributeFilter:['style']});
+
+  /* ---------- scroll bubbles (visible now) ---------- */
+  const bubbleLayer = document.getElementById('scrollBubbles');
+  // gentle continuous spawn
+  setInterval(()=>{ spawnBubble(false); }, 1800);
+  // spawn on scroll stronger
+  let lastScroll = 0;
+  window.addEventListener('scroll', ()=>{
+    const now = window.pageYOffset;
+    if(Math.abs(now - lastScroll) > 40) spawnBubble(true);
+    lastScroll = now;
   });
+  function spawnBubble(isStrong){
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = (isStrong ? (Math.random()*60 + 24) : (Math.random()*36 + 18)); // bigger if strong
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    // place near bottom to float up
+    b.style.left = (8 + Math.random()*84) + 'vw';
+    b.style.top = (72 + Math.random()*22) + 'vh';
+    b.style.animationDuration = (3 + Math.random()*2) + 's';
+    // vary opacity for visibility
+    b.style.opacity = (isStrong ? 0.14 + Math.random()*0.06 : 0.06 + Math.random()*0.06);
+    bubbleLayer.appendChild(b);
+    setTimeout(()=> b.remove(), 5200);
+  }
 
-  // close modal on Esc
-  document.addEventListener('keydown', e => { if(e.key === 'Escape' && gFull.style.display === 'block'){ gFull.style.display = 'none'; document.body.style.overflow = 'auto'; } });
-
-  /* ---------- Facebook widget (iframe) ---------- */
-  (function renderFb(){
-    const holder = document.getElementById('fb-widget-placeholder');
-    if(!FB_PAGE_URL){ holder.innerHTML = '<div style="padding:12px;color:#666">Facebook link chybí</div>'; return; }
-    const href = encodeURIComponent(FB_PAGE_URL);
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.facebook.com/plugins/page.php?href=${href}&tabs=timeline&width=320&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`;
-    iframe.style.width = '100%';
-    iframe.style.height = '300px';
-    iframe.style.border = 'none';
-    iframe.style.overflow = 'hidden';
-    iframe.setAttribute('scrolling','no');
-    iframe.setAttribute('frameborder','0');
-    holder.appendChild(iframe);
+  /* ---------- Facebook widget ---------- */
+  (function fb(){
+    const wrap = document.getElementById('fbWidgetWrap');
+    if(!FB_PAGE || FB_PAGE.includes('facebook.com/')) {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(FB_PAGE)}&tabs=timeline&width=340&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`;
+      iframe.style.width = '100%';
+      iframe.style.height = '300px';
+      iframe.style.border = 'none';
+      iframe.setAttribute('scrolling','no');
+      wrap.appendChild(iframe);
+    } else {
+      wrap.innerHTML = '<div style="padding:12px;color:var(--muted)">Facebook link není dostupný</div>';
+    }
   })();
 
-  /* ---------- Map (leaflet) ---------- */
+  /* ---------- map (leaflet) ---------- */
   try {
-    const map = L.map('map-canvas', { scrollWheelZoom: false }).setView([50.310472, 14.735444], 14);
+    const map = L.map('map-canvas', { scrollWheelZoom:false }).setView([50.310472,14.735444],14);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-    L.marker([50.310472, 14.735444]).addTo(map).bindPopup('<b>Truhlářství Blažek</b>').openPopup();
-  } catch(e) {
-    // leaflet might fail if offline; fail silently
-    console.warn('Leaflet map error', e);
-  }
+    L.marker([50.310472,14.735444]).addTo(map).bindPopup('<b>Truhlářství Blažek</b>').openPopup();
+  } catch(e){ console.warn('Leaflet not loaded', e); }
 
-  /* ---------- preload a few images to smooth switch ---------- */
+  /* ---------- preload small set ---------- */
   (function preload(){
-    images.slice(0, 10).forEach(u => { const i = new Image(); i.src = u; });
-    // ensure certificate loads
-    const c = new Image(); c.src = CERT_URL;
-    const certImg = document.querySelector('.cert-frame img');
-    if(certImg) certImg.src = CERT_URL;
+    IMAGES.slice(0,12).forEach(u=>{ const i = new Image(); i.src = u; });
+    const cert = document.getElementById('certImg'); if(cert) cert.src = 'https://i.imgur.com/certifikat.png';
   })();
 
-  /* ---------- misc accessibility & touch friendliness ---------- */
-  // allow opening gallery by tapping hero on mobile - already handled
-  // hide custom cursor on touch devices
-  function isTouch() { return ('ontouchstart' in window) || navigator.maxTouchPoints > 0; }
+  /* ---------- touch device: hide custom cursor & reduce effects ---------- */
+  function isTouch(){ return ('ontouchstart' in window) || navigator.maxTouchPoints > 0; }
   if(isTouch()){
-    const cur = document.getElementById('c-cursor');
-    if(cur) cur.style.display = 'none';
+    // reduce animations a bit
+    document.documentElement.style.setProperty('--reduce-motion','reduce');
   }
 
-  // debug watermark in console (kept)
-  const LUNA_WM = "Made by Imagine | luna https://project-luna-off.vercel.app/";
-  console.log("%c " + LUNA_WM, "color: #d1b595; font-size: 14px; font-weight: bold; background: #1a1a1a; padding: 6px;");
+  /* ---------- small console watermark ---------- */
+  console.log('%c Made by Imagine', 'color: #d1b595; font-weight:700;');
 
 })();
 </script>
