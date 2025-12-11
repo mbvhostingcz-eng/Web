@@ -1,806 +1,820 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Umělecké truhlářství Martin Blažek</title>
-<meta name="description" content="Umělecké truhlářství Martin Blažek – zakázková výroba nábytku z masivu. Výroba stolů, skříní a interiérového vybavení v okolí Benátek nad Jizerou a Mladé Boleslavi.">
-<meta name="keywords" content="truhlářství, nábytek na míru, dřevěný nábytek, stoly, skříně, Martin Blažek, Benátky nad Jizerou, Mladá Boleslav">
+<meta name="description" content="Umělecké truhlářství Martin Blažek – zakázková výroba nábytku z masivu, restaurování a designové interiéry. Tradice a kvalita v okolí Benátek nad Jizerou a Mladé Boleslavi.">
+<meta name="keywords" content="umělecké truhlářství, Martin Blažek, masiv, nábytek na míru, design, Benátky nad Jizerou, restaurování">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:title" content="Umělecké truhlářství Martin Blažek">
-<meta property="og:description" content="Zakázková výroba nábytku z masivu – kvalita, poctivost a láska ke dřevu.">
-<meta property="og:image" content="https://i.imgur.com/37SQZKP.jpeg">
-<meta property="og:url" content="https://project-luna-off.vercel.app/">
+<meta property="og:description" content="Exkluzivní práce se dřevem. Kde se řemeslo stává uměním.">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbvhostingcz-eng/Web/main/IMG_2876.jpeg">
+<meta property="og:url" content="https://utmb.vercel.app">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Umělecké truhlářství Martin Blažek">
-<meta name="twitter:description" content="Zakázková výroba nábytku z masivu – kvalita, poctivost a láska ke dřevu.">
-<meta name="twitter:image" content="https://i.imgur.com/37SQZKP.jpeg">
-<link rel="icon" href="https://i.imgur.com/37SQZKP.jpeg" sizes="32x32">
-<link rel="apple-touch-icon" href="https://i.imgur.com/37SQZKP.jpeg">
-<link rel="manifest" href="/manifest.json">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/mbvhostingcz-eng/Web/main/IMG_2876.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-:root{
-  --bg:#ffffff;
-  --wood-1:#fefcf9;
-  --wood-2:#f7efe6;
-  --accent:#a97458;
-  --accent-2:#d1b595;
-  --text:#3b2e2a;
-  --muted:#6b584d;
-  --glass: rgba(255,255,255,0.6);
-  --max-width:1200px;
-  --container-padding:20px;
-  --radius:12px;
-  --shadow: 0 8px 30px rgba(11,9,7,0.06);
+:root {
+    --primary: #8B5E3C;
+    --secondary: #D1B595;
+    --accent: #A97458;
+    --text: #2C2420;
+    --bg: #FFFFFF;
+    --bg-alt: #FAF9F6;
+    --border: #E8E0D5;
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  font-family:Inter, "Helvetica Neue", Arial, sans-serif;
-  margin:0;
-  color:var(--text);
-  background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden;
-  line-height:1.45;
-  -webkit-tap-highlight-color:transparent;
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
 }
-.header-wrap{
-  position:relative;
-  z-index:40;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  border-bottom:1px solid rgba(167,116,88,0.06);
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
 }
-.header{
-  max-width:var(--max-width);
-  margin:0 auto;
-  padding:22px var(--container-padding);
-  display:flex;
-  align-items:center;
-  gap:18px;
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.8;
 }
-.logo-wrap{
-  display:flex;
-  align-items:center;
-  gap:14px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: var(--text);
 }
-.brand-mark{
-  width:64px;
-  height:64px;
-  border-radius:10px;
-  overflow:hidden;
-  border:3px solid var(--accent-2);
-  box-shadow:var(--shadow);
-  flex:0 0 64px;
+::selection {
+    background: var(--primary);
+    color: #fff;
 }
-.brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
-.brand-title{
-  display:flex;
-  flex-direction:column;
-  line-height:1;
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background: url('https://i.imgur.com/X7m2tpd.png') no-repeat center center;
+    background-size: contain;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s linear, opacity 0.3s ease;
+    mix-blend-mode: difference;
 }
-.brand-title .name{
-  font-family: "Georgia", serif;
-  font-size:1.45rem;
-  color:var(--text);
-  letter-spacing:0.4px;
-  background:linear-gradient(45deg,var(--accent),var(--accent-2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  font-weight:700;
+.bg-waves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.4;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 12.878 61.411 11 50 11c-11.411 0-15.888 1.878-25.37 6.072-2.042.816-3.795 1.48-5.309 2.016V20h1.863zM8.529.98c-2.312-.919-4.14-1.554-5.632-1.98H.109c1.472.505 3.324 1.258 5.67 2.196C15.27 5.122 19.747 7 31.158 7c11.411 0 15.888-1.878 25.37-6.072C65.044-2.484 71.05-3.832 81.403-3.832c10.271 0 15.362 1.222 24.629 4.928C115.52 4.882 120 6.76 131.411 6.76c11.411 0 15.888-1.878 25.37-6.072 2.92-1.167 5.418-2.091 7.828-2.827l.136.219c-2.503.797-5.1 1.776-8.196 3.012C147.112 5.122 142.635 7 131.224 7c-11.411 0-15.888-1.878-25.37-6.072-9.483-4.196-14.574-5.418-24.845-5.418-10.354 0-16.36 1.348-25.961 4.937C45.562 4.286 41.085 6.164 29.674 6.164c-11.411 0-15.888-1.878-25.37-6.072-1.928-.853-3.64-1.577-5.116-2.133l-.66.69c1.619.564 3.447 1.309 5.471 2.204z' fill='%23D1B595' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+    animation: waveMove 60s linear infinite;
 }
-.brand-title .tag{font-size:0.85rem;color:var(--muted)}
-.header-actions{margin-left:auto;display:flex;align-items:center;gap:12px}
-.cta{
-  background:linear-gradient(180deg,var(--accent),#8b5e3c);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  box-shadow:0 6px 18px rgba(167,116,88,0.18);
+@keyframes waveMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 20px; }
 }
-.cta.secondary{
-  background:transparent;
-  border:1px solid var(--accent-2);
-  color:var(--text);
-  padding:9px 12px;
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
 }
-.top-notice{
-  font-size:0.9rem;
-  color:var(--accent);
-  padding:8px 16px;
-  border-radius:999px;
-  background:linear-gradient(90deg,rgba(169,116,88,0.06),rgba(209,181,149,0.04));
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
-.hero{
-  position:relative;
-  overflow:hidden;
-  padding:40px var(--container-padding) 56px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:66vh;
-  max-height:980px;
-  border-bottom:1px solid rgba(167,116,88,0.04);
-  background:linear-gradient(180deg,var(--wood-1),var(--wood-2));
+.loader-line {
+    width: 0%;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.5s ease;
+    margin-top: 20px;
 }
-.hero-inner{
-  width:100%;
-  max-width:var(--max-width);
-  margin:0 auto;
-  display:grid;
-  grid-template-columns: 1fr 420px;
-  gap:28px;
-  align-items:center;
-  z-index:2;
+.loader-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--primary);
+    opacity: 0;
 }
-.left{
-  padding:26px;
-  border-radius:var(--radius);
-  background:linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7));
-  box-shadow:var(--shadow);
-  border:1px solid rgba(167,116,88,0.05);
+header {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    padding: 2rem;
+    text-align: center;
 }
-.right{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  position:relative;
+.logo-container {
+    margin-bottom: 2rem;
+    position: relative;
 }
-.kicker{
-  color:var(--accent);
-  font-weight:700;
-  letter-spacing:0.8px;
-  margin-bottom:8px;
-  display:inline-block;
+.logo-img {
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid var(--secondary);
+    padding: 10px;
+    object-fit: cover;
 }
-.h1{
-  font-family: "Georgia", serif;
-  font-size:2.35rem;
-  color:var(--text);
-  margin-bottom:12px;
+.brand-name {
+    font-size: 4rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--text), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-.lead{color:var(--muted);font-size:1.03rem;margin-bottom:18px}
-.features{display:flex;gap:12px;flex-wrap:wrap}
-.feature{
-  background:rgba(255,255,255,0.85);
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid rgba(167,116,88,0.04);
-  font-weight:600;
-  color:var(--muted);
-  display:inline-flex;
-  gap:10px;
-  align-items:center;
-  box-shadow:0 6px 18px rgba(0,0,0,0.03);
+.brand-tagline {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 300;
 }
-.slider{
-  width:100%;
-  height:420px;
-  border-radius:14px;
-  overflow:hidden;
-  position:relative;
-  box-shadow:0 20px 50px rgba(11,9,7,0.12);
-  border:6px solid var(--accent-2);
-  background:linear-gradient(180deg, #fff, #f8f3ef);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.6;
 }
-.slide{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:opacity 800ms cubic-bezier(.2,.9,.25,1),transform 800ms cubic-bezier(.2,.9,.25,1);
-  opacity:0;
-  transform:scale(1.02);
-  pointer-events:none;
+.scroll-line {
+    width: 1px;
+    height: 60px;
+    background: var(--primary);
+    position: relative;
+    overflow: hidden;
 }
-.slide.visible{opacity:1;transform:scale(1)}
-.slide img{width:100%;height:100%;object-fit:cover;display:block}
-.controls{
-  position:absolute;
-  bottom:14px;
-  left:14px;
-  display:flex;
-  gap:8px;
-  z-index:10;
+.scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    animation: scrollHide 2s infinite;
 }
-.control-btn{
-  background:rgba(255,255,255,0.75);
-  border-radius:999px;
-  padding:8px 10px;
-  border:1px solid rgba(167,116,88,0.06);
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-weight:700;
+@keyframes scrollHide {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
 }
-.slide-indicators{
-  position:absolute;
-  right:14px;
-  bottom:18px;
-  display:flex;
-  gap:6px;
+section {
+    padding: 8rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
 }
-.ind-dot{
-  width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.6);
+.section-title {
+    font-size: 3rem;
+    margin-bottom: 4rem;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.ind-dot.active{background:var(--accent)}
-.gallery-grid{
-  max-width:var(--max-width);
-  margin:40px auto;
-  padding:20px var(--container-padding);
-  display:grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:18px;
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--primary);
+    margin: 20px auto 0;
 }
-.card{
-  background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.8));
-  border-radius:12px;padding:16px;border:1px solid rgba(167,116,88,0.04);
-  box-shadow:var(--shadow);
-  display:flex;flex-direction:column;gap:12px;
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+    align-items: center;
 }
-.card h3{margin:0;font-size:1.05rem;color:var(--text)}
-.card p{margin:0;color:var(--muted);font-size:0.95rem}
-.contact-section{
-  max-width:var(--max-width);
-  margin:40px auto;
-  padding:24px var(--container-padding);
-  display:flex;
-  gap:18px;
-  align-items:flex-start;
+.col-text {
+    grid-column: span 6;
+    padding: 2rem;
 }
-.contact-card{
-  flex:1;
-  padding:18px;border-radius:12px;background:#fff;border:1px solid rgba(167,116,88,0.04);box-shadow:var(--shadow);
-  display:flex;flex-direction:column;gap:10px;
+.col-image {
+    grid-column: span 6;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
 }
-.map-card{flex:1;min-height:260px;border-radius:12px;overflow:hidden;border:1px solid rgba(167,116,88,0.04)}
-.footer{
-  margin-top:40px;
-  padding:28px var(--container-padding);
-  background:linear-gradient(180deg,#fbf8f6,#f8f3ef);
-  border-top:1px solid rgba(167,116,88,0.04);
+.col-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease);
 }
-.footer-inner{max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.small{font-size:0.9rem;color:var(--muted)}
-.cert-placeholder{
-  margin-top:18px;
-  width:100%;
-  max-width:380px;
-  height:220px;
-  border-radius:10px;
-  border:4px dashed rgba(167,116,88,0.18);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--muted);
-  font-weight:700;
-  background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.2));
+.col-image:hover img {
+    transform: scale(1.05);
 }
-.lightbox{
-  position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:12000;padding:20px;
+.text-block p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #555;
+    text-align: justify;
 }
-.lightbox.show{display:flex}
-.lightbox-grid{
-  width:100%;max-width:1200px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;overflow:auto;padding:10px;background:linear-gradient(180deg,#fff,#f9f6f3);border-radius:12px;
+.service-card {
+    background: var(--bg-alt);
+    padding: 3rem;
+    border: 1px solid var(--border);
+    transition: 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
 }
-.lightbox-grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;cursor:pointer;border:3px solid rgba(167,116,88,0.04)}
-.close-lightbox{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.9);border-radius:999px;padding:8px;border:1px solid rgba(167,116,88,0.06);cursor:pointer}
-@media (max-width:1024px){
-  .hero-inner{grid-template-columns:1fr 1fr}
-  .gallery-grid{grid-template-columns:repeat(2,1fr)}
-  .lightbox-grid{grid-template-columns:repeat(3,1fr)}
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(139, 94, 60, 0.1);
+    border-color: var(--primary);
 }
-@media (max-width:720px){
-  .hero-inner{grid-template-columns:1fr;gap:14px}
-  .header{padding:12px}
-  .brand-mark{width:52px;height:52px}
-  .gallery-grid{grid-template-columns:1fr}
-  .lightbox-grid{grid-template-columns:repeat(2,1fr)}
-  .slide{position:relative}
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
-.cursor{
-  position:fixed;left:0;top:0;width:36px;height:36px;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);background:url('https://i.imgur.com/X7m2tpd.png') center/contain no-repeat;border-radius:50%;
+.service-icon {
+    width: 50px;
+    height: 50px;
+    fill: var(--primary);
+    margin-bottom: 1.5rem;
 }
-.wood-waves{
-  position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.28;
+.photo-display-container {
+    width: 100%;
+    height: 80vh;
+    position: relative;
+    background: #111;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
-.wave{
-  position:absolute;left:-10%;width:120%;height:160%;background-repeat:repeat-x;background-size:1200px 160px;opacity:0.12;
-  transform:translate3d(0,0,0);
+.active-photo {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
-.wave.w1{top:10%;background-image: linear-gradient(180deg, rgba(169,116,88,0.02), transparent 40%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="160" viewBox="0 0 1200 160"><path fill="%23d1b595" d="M0 70 C 200 120 400 20 600 70 C 800 120 1000 20 1200 70 L1200 160 L0 160 Z"/></svg>');animation:moveWave 32s linear infinite}
-.wave.w2{top:30%;background-image: linear-gradient(180deg, rgba(169,116,88,0.01), transparent 40%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="160" viewBox="0 0 1200 160"><path fill="%23a97458" d="M0 90 C 200 40 400 140 600 90 C 800 40 1000 140 1200 90 L1200 160 L0 160 Z"/></svg>');animation:moveWave 48s linear infinite}
-@keyframes moveWave{0%{background-position:0 0}100%{background-position:1200px 0}}
-.bubble{
-  position:fixed;
-  bottom:-40px;
-  width:10px;height:10px;border-radius:50%;
-  background:rgba(255,255,255,0.6);
-  box-shadow:0 8px 18px rgba(11,9,7,0.06);
-  pointer-events:none;z-index:30;opacity:0.9;
+.active-photo.visible {
+    opacity: 1;
 }
-.fade-in{opacity:0;transform:translateY(28px);transition:all 700ms cubic-bezier(.2,.9,.25,1)}
-.fade-in.show{opacity:1;transform:none}
-.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+.photo-timer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--primary);
+    width: 0%;
+}
+.overlay-hint {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    pointer-events: none;
+}
+.full-gallery-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 20000;
+    transform: translateY(100%);
+    transition: transform 0.8s var(--ease);
+    overflow-y: auto;
+    padding: 4rem;
+}
+.full-gallery-modal.open {
+    transform: translateY(0);
+}
+.close-modal {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 20001;
+    color: var(--text);
+    mix-blend-mode: difference;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+}
+.gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    background: #eee;
+}
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+.certificate-section {
+    padding: 6rem 2rem;
+    text-align: center;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+.cert-placeholder {
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--secondary);
+    background: #fff;
+}
+.cert-placeholder img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+#map {
+    height: 500px;
+    width: 100%;
+    filter: grayscale(1) sepia(0.2);
+    transition: filter 0.5s ease;
+}
+#map:hover {
+    filter: grayscale(0) sepia(0);
+}
+.contact-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 4rem;
+}
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+    padding: 2rem;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: color 0.3s;
+}
+.contact-item:hover {
+    color: var(--primary);
+}
+.contact-item svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    fill: var(--primary);
+}
+footer {
+    background: #1a1512;
+    color: #888;
+    padding: 4rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.wood-detail-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: repeating-linear-gradient(45deg, var(--primary), var(--primary) 10px, var(--accent) 10px, var(--accent) 20px);
+    opacity: 0.3;
+}
+@media (max-width: 900px) {
+    .grid-layout { display: flex; flex-direction: column; }
+    .brand-name { font-size: 2.5rem; }
+    .col-image { height: 300px; width: 100%; }
+    .custom-cursor { display: none !important; }
+}
 </style>
 </head>
 <body>
-<div class="cursor" id="custom-cursor"></div>
-<div class="header-wrap">
-  <div class="header">
-    <div class="logo-wrap">
-      <div class="brand-mark"><img src="https://i.imgur.com/BnSo4og.jpeg" alt="logo"></div>
-      <div class="brand-title">
-        <div class="name">Umělecké truhlářství Martin Blažek</div>
-        <div class="tag">Zakázková výroba nábytku z masivu</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <div class="top-notice">Profesionální zakázky • Dřevo & design</div>
-      <a class="cta" href="tel:+420123456789">Zavolat</a>
-      <a class="cta secondary" href="#kontakt">Kontakt</a>
-    </div>
-  </div>
+<div class="custom-cursor" id="cursor"></div>
+<div class="bg-waves"></div>
+<canvas id="particle-canvas"></canvas>
+
+<div class="loader">
+    <div class="loader-logo">TRUHLÁŘSTVÍ BLAŽEK</div>
+    <div class="loader-line"></div>
 </div>
-<section class="hero" aria-label="Úvodní sekce">
-  <div class="wood-waves" aria-hidden="true">
-    <div class="wave w1"></div>
-    <div class="wave w2"></div>
-  </div>
-  <div class="hero-inner">
-    <div class="left">
-      <div class="kicker">Tradiční řemeslo • Moderní design</div>
-      <div class="h1">Krásné věci z pravého dřeva</div>
-      <div class="lead">Vyrábíme nábytek na míru, interiérové doplňky a restaurování historických kusů. Každý projekt je pro nás uměleckým dílem.</div>
-      <div class="features" role="list">
-        <div class="feature" role="listitem">Nábytek na míru</div>
-        <div class="feature" role="listitem">Renovace & opravy</div>
-        <div class="feature" role="listitem">Dřevo z obnovitelných zdrojů</div>
-      </div>
-      <div style="margin-top:18px;display:flex;gap:12px;align-items:center">
-        <a class="cta" id="openGalleryBtn">Prohlédnout fotky</a>
-        <a class="cta secondary" href="#kontakt">Požádat o kalkulaci</a>
-      </div>
+
+<header>
+    <div class="logo-container">
+        <img src="https://i.imgur.com/BnSo4og.jpeg" alt="Logo" class="logo-img">
     </div>
-    <div class="right">
-      <div class="slider" id="mainSlider" aria-live="polite" aria-atomic="true">
-        <div class="slide" data-index="0">
-          <img alt="Fotografie díla" src="https://i.imgur.com/37SQZKP.jpeg" loading="lazy">
-        </div>
-        <div class="slide" data-index="1">
-          <img alt="Fotografie díla" src="https://i.imgur.com/37SQZKP.jpeg" loading="lazy">
-        </div>
-        <div class="controls">
-          <button class="control-btn" id="prevSlide">◀</button>
-          <button class="control-btn" id="nextSlide">▶</button>
-        </div>
-        <div class="slide-indicators" id="slideIndicators" aria-hidden="true"></div>
-      </div>
+    <h1 class="brand-name">Umělecké Truhlářství<br>Martin Blažek</h1>
+    <p class="brand-tagline">Mistrovská práce s dřevem</p>
+    <div class="scroll-indicator">
+        <span style="margin-bottom:10px; font-size: 0.8rem; letter-spacing: 2px;">SCROLL</span>
+        <div class="scroll-line"></div>
     </div>
-  </div>
+</header>
+
+<section id="about">
+    <div class="grid-layout">
+        <div class="col-text">
+            <h2 class="section-title" style="transform: none; left: 0; text-align: left;">Příběh dřeva</h2>
+            <div class="text-block">
+                <p>Vítejte ve světě, kde se hrubý materiál mění v ušlechtilý artefakt. Truhlářství Blažek není jen o výrobě nábytku; je o vdechnutí duše do každého kusu masivu, který projde našima rukama.</p>
+                <p>S více než 20 lety zkušeností v oboru spojujeme tradiční řemeslné postupy s moderním designem. Sídlíme nedaleko Benátek nad Jizerou, ale naše díla zdobí interiéry po celé republice. Každý letokruh má svůj příběh a my jsme zde, abychom ho vyprávěli dál ve vašem domově.</p>
+                <p>Nevyrábíme jen stoly a skříně. Vytváříme dědictví, které přetrvá generace.</p>
+            </div>
+        </div>
+        <div class="col-image reveal-image">
+            <img src="https://i.imgur.com/37SQZKP.jpeg" alt="Detail práce se dřevem">
+        </div>
+    </div>
 </section>
-<main>
-  <section class="gallery-grid" aria-label="Galerie" id="galleryGrid">
-    <div class="card fade-in">
-      <h3>Ukázky zakázek</h3>
-      <p>Vybrané výrobky, realizace interiérů a detailní práce spojující řemeslnou zručnost s uměleckým citlivým přístupem.</p>
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <a class="cta secondary" id="viewAllBtn">Zobrazit všechny fotografie</a>
-        <a class="cta" href="#kontakt">Objednat konzultaci</a>
-      </div>
+
+<section id="services">
+    <h2 class="section-title">Naše Služby</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <svg class="service-icon" viewBox="0 0 24 24"><path d="M20,8H4V6H20V8M18,2H6V4H18V2M22,12H2V10H22V12M20,16H4V14H20V16M18,20H6V18H18V20Z"/></svg>
+            <h3>Zakázkový Nábytek</h3>
+            <p>Od návrhu po realizaci. Kuchyně, vestavěné skříně, solitéry. Vše přesně na milimetr, vše s důrazem na ergonomii a estetu.</p>
+        </div>
+        <div class="service-card">
+            <svg class="service-icon" viewBox="0 0 24 24"><path d="M13.78 15.3L19.78 21.3L21.89 19.19L15.89 13.19L13.78 15.3M17.5 10C17.5 8.9 16.6 8 15.5 8C14.4 8 13.5 8.9 13.5 10C13.5 11.1 14.4 12 15.5 12C16.6 12 17.5 11.1 17.5 10M9.06 13.06L4.11 18L1.28 15.19L6.23 10.23L9.06 13.06M20.73 6.94L11.53 16.14L9.41 14.03L18.61 4.81L20.73 6.94M17.65 2.15L15.53 4.27L20.47 9.21L22.59 7.09L17.65 2.15Z"/></svg>
+            <h3>Restaurování</h3>
+            <p>Vracíme život starým kouskům. Citlivě, s respektem k historii a původním technologiím opravujeme starožitný nábytek.</p>
+        </div>
+        <div class="service-card">
+            <svg class="service-icon" viewBox="0 0 24 24"><path d="M4,2H20A2,2 0 0,1 22,4V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2M4,4V20H20V4H4M6,6H18V18H6V6Z"/></svg>
+            <h3>Masivní Konstrukce</h3>
+            <p>Pergoly, schodiště, obložení. Prvky, které tvoří charakter stavby. Používáme jen nejkvalitnější vyzrálé dřevo.</p>
+        </div>
     </div>
-    <div class="card fade-in">
-      <h3>Materiály</h3>
-      <p>Masiv – dub, jasan, ořech; dýhy; recyklované dřevo; ekologické oleje a laky.</p>
+</section>
+
+<section id="gallery-preview" style="padding: 0; max-width: 100%;">
+    <div class="photo-display-container" id="slideshow-trigger">
+        <img src="" alt="Gallery Slide" class="active-photo" id="main-slide">
+        <div class="photo-timer" id="slide-timer"></div>
+        <div class="overlay-hint">Klikněte pro celou galerii (68 fotografií)</div>
     </div>
-    <div class="card fade-in">
-      <h3>Ateliér</h3>
-      <p>Pracujeme v malém rodinném ateliéru poblíž Benátek nad Jizerou. Každý kus projde pečlivou kontrolou kvality.</p>
-      <div class="cert-placeholder" id="certificateArea">
-        <img id="certificate" src="zdecertifikat" alt="Certifikát" style="max-width:100%;max-height:100%;object-fit:contain">
-      </div>
+</section>
+
+<section id="certificate" class="certificate-section">
+    <h2 class="section-title">Certifikace a Ocenění</h2>
+    <p style="max-width: 600px; margin: 0 auto 3rem auto; color: #666;">Neustále se vzděláváme a posouváme hranice možného. Kvalita naší práce je podložena nejen spokojenými zákazníky, ale i oficiálními certifikáty.</p>
+    
+    <div class="cert-placeholder">
+        <a href="zdecertifikat" target="_blank">
+            <img src="https://via.placeholder.com/600x400?text=Zde+bude+Váš+Certifikát" alt="Certifikát kvality">
+        </a>
     </div>
-  </section>
-  <section class="contact-section" id="kontakt" aria-label="Kontakt">
-    <div class="contact-card fade-in">
-      <h3>Kontakt</h3>
-      <p class="small">Umělecké truhlářství Martin Blažek</p>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-        <div style="display:flex;gap:8px;align-items:center"><strong>Email:</strong><a href="mailto:Blazek-truhlar@seznam.cz">Blazek-truhlar@seznam.cz</a></div>
-        <div style="display:flex;gap:8px;align-items:center"><strong>Telefon:</strong><a href="tel:+420123456789">+420 123 456 789</a></div>
-        <div style="display:flex;gap:8px;align-items:center"><strong>Adresa:</strong><span>Dolní Slivno 118, 29478</span></div>
-        <div style="display:flex;gap:8px;align-items:center"><strong>Facebook:</strong><a href="https://m.facebook.com/100083111833665/" target="_blank" rel="noopener">fb.me/UmTruhlarstvi</a></div>
-      </div>
-      <div style="margin-top:14px">
-        <a class="cta" href="mailto:Blazek-truhlar@seznam.cz">Poslat dotaz</a>
-      </div>
+</section>
+
+<section id="contact">
+    <h2 class="section-title">Kde nás najdete</h2>
+    <div class="grid-layout">
+        <div class="col-text" style="grid-column: span 5;">
+            <div class="contact-info">
+                <a href="mailto:Blazek-truhlar@seznam.cz" class="contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/></svg>
+                    Blazek-truhlar@seznam.cz
+                </a>
+                <a href="tel:+420123456789" class="contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>
+                    +420 123 456 789
+                </a>
+                <a href="https://m.facebook.com/100083111833665/" target="_blank" class="contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.15 5.96C15.21 5.96 16.12 6.04 16.12 6.04V8.51H15.01C13.77 8.51 13.38 9.28 13.38 10.07V12.06H16.15L15.71 14.96H13.38V21.96C18.16 21.21 21.82 17.06 21.82 12.06C21.82 6.53 17.32 2.04 12 2.04Z"/></svg>
+                    Sledujte nás na Facebooku
+                </a>
+                <p style="margin-top:2rem; font-size:0.9rem; color:#777;">
+                    Dolní Slivno 118<br>294 78, Česká republika
+                </p>
+            </div>
+        </div>
+        <div class="col-image" style="grid-column: span 7; height: 500px;">
+            <div id="map"></div>
+        </div>
     </div>
-    <div class="map-card fade-in" id="map" aria-label="Mapa"></div>
-  </section>
-  <section style="max-width:var(--max-width);margin:40px auto;padding:20px var(--container-padding);">
-    <div style="display:flex;gap:18px;flex-wrap:wrap">
-      <div style="flex:1;min-width:240px" class="fade-in">
-        <h3>Proč si vybrat nás</h3>
-        <p style="color:var(--muted)">Kombinujeme tradiční truhlářské techniky s moderním designem a přesností. Každý projekt dokumentujeme a dodáváme s jasnou kalkulací.</p>
-      </div>
-      <div style="flex:1;min-width:240px" class="fade-in">
-        <h3>Proces</h3>
-        <ol style="color:var(--muted);margin-left:18px">
-          <li>První konzultace a návrh</li>
-          <li>Výroba a průběžná kontrola</li>
-          <li>Dovoz a finální montáž</li>
-        </ol>
-      </div>
-      <div style="flex:1;min-width:240px" class="fade-in">
-        <h3>Záruka & péče</h3>
-        <p style="color:var(--muted)">Na naše výrobky poskytujeme záruku a servisní poradenství včetně péče o povrchové úpravy.</p>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <div>
-      <div class="small">© Umělecké truhlářství Martin Blažek</div>
-      <div class="small">Dolní Slivno • Benátky nad Jizerou</div>
-    </div>
-    <div class="small">Vytvořeno s pečlivostí • Made by Imagine | luna https://project-luna-off.vercel.app/</div>
-  </div>
+</section>
+
+<footer>
+    <div class="wood-detail-bottom"></div>
+    <p>&copy; 2024 Umělecké truhlářství Martin Blažek. Všechna práva vyhrazena.</p>
 </footer>
-<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie - celá fotografie">
-  <button class="close-lightbox" id="closeLightbox" aria-label="Zavřít galerie">✕</button>
-  <div class="lightbox-grid" id="lightboxGrid" tabindex="0" role="list"></div>
+
+<div class="full-gallery-modal" id="gallery-modal">
+    <div class="close-modal" id="close-gallery">&times;</div>
+    <h2 style="text-align:center; margin-bottom:2rem;">Kompletní fotogalerie</h2>
+    <div class="gallery-grid" id="modal-grid"></div>
 </div>
-<noscript><div style="padding:12px;background:#fff0f0;color:#6b1e1e;text-align:center">Pro plnou funkčnost povolte JavaScript</div></noscript>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-console.log("Made by Imagine | luna https://project-luna-off.vercel.app/");
-(function(){
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const cursor = document.getElementById('custom-cursor');
-  if(!prefersReduced){
-    document.addEventListener('mousemove', function(e){ cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-  } else {
-    cursor.style.display = 'none';
-  }
-  window.addEventListener('touchstart', function(){ cursor.style.display = 'none'; }, {passive:true});
-})();
-(function(){
-  const slideContainer = document.getElementById('mainSlider');
-  const slides = Array.from(slideContainer.querySelectorAll('.slide'));
-  const indicators = document.getElementById('slideIndicators');
-  let current = 0;
-  let autoTimer = null;
-  let autoDelay = 5000;
-  function buildIndicators(){
-    indicators.innerHTML = '';
-    slides.forEach((s,i)=>{
-      const dot = document.createElement('div');
-      dot.className = 'ind-dot' + (i===0?' active':'');
-      dot.setAttribute('data-index',i);
-      dot.addEventListener('click',()=>{ goTo(i,true); });
-      indicators.appendChild(dot);
+console.log("%cMade by Imagine | luna https://project-luna-off.vercel.app/", "background: #222; color: #d1b595; font-size: 14px; padding: 10px; border: 1px solid #d1b595; border-radius: 4px;");
+
+// --- 1. LOADER & INIT ---
+window.addEventListener('load', () => {
+    const loader = document.querySelector('.loader');
+    const line = document.querySelector('.loader-line');
+    const logoText = document.querySelector('.loader-logo');
+    
+    line.style.width = '200px';
+    
+    setTimeout(() => {
+        gsap.to(logoText, { opacity: 1, duration: 1, y: -10 });
+        setTimeout(() => {
+            gsap.to(loader, { 
+                yPercent: -100, 
+                duration: 1.2, 
+                ease: "power4.inOut",
+                onComplete: initAnimations 
+            });
+        }, 1500);
+    }, 500);
+});
+
+// --- 2. CUSTOM CURSOR ---
+const cursor = document.getElementById('cursor');
+if (window.matchMedia("(pointer: fine)").matches) {
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
     });
-  }
-  function show(i){
-    slides.forEach(s=>s.classList.remove('visible'));
-    const s = slides[i];
-    if(s) s.classList.add('visible');
-    Array.from(indicators.children).forEach((d,idx)=>{ d.classList.toggle('active', idx===i); });
-  }
-  function goTo(i, userTriggered){
-    current = (i+slides.length)%slides.length;
-    show(current);
-    resetAuto(userTriggered);
-  }
-  function next(userTriggered){ goTo(current+1,userTriggered); }
-  function prev(userTriggered){ goTo(current-1,userTriggered); }
-  function startAuto(){
-    if(autoTimer) clearInterval(autoTimer);
-    autoTimer = setInterval(()=> next(false), autoDelay);
-  }
-  function resetAuto(userTriggered){
-    if(userTriggered){
-      if(autoTimer) clearInterval(autoTimer);
-      setTimeout(startAuto, 8000);
-    }
-  }
-  document.getElementById('nextSlide').addEventListener('click', ()=> next(true));
-  document.getElementById('prevSlide').addEventListener('click', ()=> prev(true));
-  buildIndicators();
-  show(0);
-  startAuto();
-  window.addEventListener('visibilitychange', ()=> { if(document.hidden) clearInterval(autoTimer); else startAuto(); });
-  window.mainSliderController = { goTo, next, prev, slides };
-})();
-(function(){
-  const galleryGrid = document.getElementById('galleryGrid');
-  const fadeEls = document.querySelectorAll('.fade-in');
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting) e.target.classList.add('show');
-    });
-  }, {threshold:0.12});
-  fadeEls.forEach(el=>obs.observe(el));
-})();
-(function(){
-  const lightbox = document.getElementById('lightbox');
-  const lightboxGrid = document.getElementById('lightboxGrid');
-  const openBtn = document.getElementById('openGalleryBtn');
-  const viewAllBtn = document.getElementById('viewAllBtn');
-  const closeBtn = document.getElementById('closeLightbox');
-  const albumId = 'llL7zlw';
-  let albumLoaded = false;
-  function openLightbox(){
-    lightbox.classList.add('show');
-    lightbox.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    if(!albumLoaded) loadAlbum();
-  }
-  function closeLightbox(){
-    lightbox.classList.remove('show');
-    lightbox.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-  openBtn.addEventListener('click', openLightbox);
-  viewAllBtn.addEventListener('click', openLightbox);
-  closeBtn.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
-  function loadAlbum(){
-    albumLoaded = true;
-    const embed = document.createElement('blockquote');
-    embed.className = 'imgur-embed-pub';
-    embed.setAttribute('lang','cs');
-    embed.setAttribute('data-id', albumId);
-    const a = document.createElement('a');
-    a.href = '//imgur.com/a/' + albumId;
-    a.textContent = 'Galerie';
-    embed.appendChild(a);
-    document.body.appendChild(embed);
-    const s = document.createElement('script');
-    s.src = '//s.imgur.com/min/embed.js';
-    s.async = true;
-    s.onload = function(){
-      setTimeout(function(){
-        const imgs = Array.from(document.querySelectorAll('.imgur-embed-image-link img'));
-        if(imgs.length === 0){
-          const fallback = document.createElement('div');
-          fallback.textContent = 'Obrázky nejsou momentálně k dispozici. Otevřete album na Imgur.';
-          fallback.style.padding = '12px';
-          fallback.style.color = '#6b584d';
-          lightboxGrid.appendChild(fallback);
-          const link = document.createElement('a');
-          link.href = 'https://imgur.com/a/' + albumId;
-          link.target = '_blank';
-          link.rel = 'noopener';
-          link.textContent = 'Otevřít album';
-          link.style.marginTop = '8px';
-          link.style.display = 'inline-block';
-          link.className = 'cta';
-          lightboxGrid.appendChild(link);
-          return;
-        }
-        imgs.forEach((img, i)=>{
-          const clone = document.createElement('img');
-          clone.src = img.src.replace(/\/b\//,'/'); // normalize
-          clone.alt = 'Galerie ' + (i+1);
-          clone.loading = 'lazy';
-          clone.addEventListener('click', function(){ openImageViewer(clone.src); });
-          lightboxGrid.appendChild(clone);
+    
+    document.querySelectorAll('a, button, .service-card, .col-image, #slideshow-trigger').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursor.style.background = 'white'; 
+            cursor.style.mixBlendMode = 'difference';
+            cursor.style.borderRadius = '50%';
         });
-      }, 400);
-    };
-    document.head.appendChild(s);
-  }
-  function openImageViewer(src){
-    const viewer = document.createElement('div');
-    viewer.style.position = 'fixed';
-    viewer.style.inset = '0';
-    viewer.style.background = 'rgba(0,0,0,0.95)';
-    viewer.style.display = 'flex';
-    viewer.style.alignItems = 'center';
-    viewer.style.justifyContent = 'center';
-    viewer.style.zIndex = 13000;
-    viewer.addEventListener('click', ()=> viewer.remove());
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.background = "url('https://i.imgur.com/X7m2tpd.png') no-repeat center center";
+            cursor.style.backgroundSize = "contain";
+            cursor.style.mixBlendMode = 'difference';
+            cursor.style.borderRadius = '0';
+        });
+    });
+}
+
+// --- 3. PARTICLE SYSTEM (Scroll Reactive) ---
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let width, height;
+let particles = [];
+let lastScrollY = window.scrollY;
+let scrollSpeed = 0;
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+    constructor(x, y, v) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 4 + 1;
+        this.speedY = Math.random() * -2 - (v * 0.1); 
+        this.opacity = Math.random() * 0.5 + 0.2;
+        this.life = 100;
+    }
+    update() {
+        this.y += this.speedY;
+        this.life -= 1;
+        this.opacity -= 0.005;
+    }
+    draw() {
+        ctx.fillStyle = `rgba(209, 181, 149, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0 || particles[i].opacity <= 0) {
+            particles.splice(i, 1);
+            i--;
+        }
+    }
+    
+    const currentScrollY = window.scrollY;
+    const delta = Math.abs(currentScrollY - lastScrollY);
+    scrollSpeed = delta;
+    lastScrollY = currentScrollY;
+
+    if (scrollSpeed > 20) {
+        const amount = Math.floor(scrollSpeed / 10);
+        for(let j=0; j<amount; j++) {
+            particles.push(new Particle(Math.random() * width, height + 10, scrollSpeed));
+        }
+    } else if (Math.random() > 0.95) {
+        particles.push(new Particle(Math.random() * width, height + 10, 0));
+    }
+
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// --- 4. GALLERY LOGIC ---
+// Simulating 68 photos using a repeater of provided/placeholder images
+const baseImages = [
+    "https://i.imgur.com/37SQZKP.jpeg",
+    "https://i.imgur.com/BnSo4og.jpeg", 
+    "https://images.unsplash.com/photo-1611269154421-4e27c413ba7d?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1601058268499-e52658b8bb88?auto=format&fit=crop&q=80&w=1000"
+];
+const allPhotos = [];
+for(let i=0; i<68; i++) {
+    allPhotos.push(baseImages[i % baseImages.length]);
+}
+
+let currentSlide = 0;
+let slideInterval;
+const mainSlide = document.getElementById('main-slide');
+const timerBar = document.getElementById('slide-timer');
+const modal = document.getElementById('gallery-modal');
+const modalGrid = document.getElementById('modal-grid');
+const closeBtn = document.getElementById('close-gallery');
+const slideshowTrigger = document.getElementById('slideshow-trigger');
+
+function changeSlide() {
+    mainSlide.classList.remove('visible');
+    timerBar.style.transition = 'none';
+    timerBar.style.width = '0%';
+    
+    setTimeout(() => {
+        currentSlide = (currentSlide + 1) % allPhotos.length;
+        mainSlide.src = allPhotos[currentSlide];
+        mainSlide.onload = () => {
+            mainSlide.classList.add('visible');
+            timerBar.style.transition = 'width 5s linear';
+            timerBar.style.width = '100%';
+        };
+    }, 500);
+}
+
+function startSlideshow() {
+    mainSlide.src = allPhotos[0];
+    mainSlide.classList.add('visible');
+    timerBar.style.transition = 'width 5s linear';
+    setTimeout(() => timerBar.style.width = '100%', 100);
+    slideInterval = setInterval(changeSlide, 5000);
+}
+
+// Populate Modal
+allPhotos.forEach(src => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
     const img = document.createElement('img');
-    img.src = src;
-    img.style.maxWidth = '96%';
-    img.style.maxHeight = '96%';
-    img.style.borderRadius = '12px';
-    img.style.boxShadow = '0 30px 80px rgba(0,0,0,0.6)';
-    viewer.appendChild(img);
-    document.body.appendChild(viewer);
-  }
-})();
-(function(){
-  const slider = document.getElementById('mainSlider');
-  const slides = Array.from(slider.querySelectorAll('.slide'));
-  let imageList = [];
-  function collectImagesFromImgurEmbed(){
-    const embedded = document.querySelectorAll('.imgur-embed-image-link img');
-    if(embedded.length) return Array.from(embedded).map(i=>i.src);
-    return [];
-  }
-  function useFallbackImages(){
-    const fallback = [
-      'https://i.imgur.com/37SQZKP.jpeg',
-      'https://i.imgur.com/BnSo4og.jpeg',
-      'https://i.imgur.com/X7m2tpd.png'
-    ];
-    return fallback;
-  }
-  function setSlides(urls){
-    urls = urls.length ? urls : useFallbackImages();
-    slides.forEach((s,i)=>{
-      const img = s.querySelector('img');
-      img.src = urls[i % urls.length];
-      imageList.push(img.src);
+    img.setAttribute('data-src', src); 
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; // placeholder
+    div.appendChild(img);
+    modalGrid.appendChild(div);
+});
+
+// Lazy load for modal
+const lazyObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.getAttribute('data-src');
+            observer.unobserve(img);
+        }
     });
-    window.heroImages = imageList;
-  }
-  setSlides([]);
-  (function autoAdvanceFromImgur(){
-    const albumId = 'llL7zlw';
-    const script = document.createElement('script');
-    script.src = '//s.imgur.com/min/embed.js';
-    script.async = true;
-    script.onload = function(){
-      setTimeout(function(){
-        const imgs = collectImagesFromImgurEmbed();
-        if(imgs.length) setSlides(imgs);
-      },400);
-    };
-    document.head.appendChild(script);
-  })();
-  let currentIndex = 0;
-  function cycle(){
-    const total = slides.length;
-    const nextIdx = (currentIndex + 1) % total;
-    window.mainSliderController.goTo(nextIdx,false);
-    currentIndex = nextIdx;
-  }
-  let cycleTimer = setInterval(cycle,5000);
-  slider.addEventListener('mouseenter', ()=> clearInterval(cycleTimer));
-  slider.addEventListener('mouseleave', ()=> cycleTimer = setInterval(cycle,5000));
-})();
-(function(){
-  const mapEl = document.getElementById('map');
-  function initMap(){
-    try{
-      const L = window.L;
-      if(!L) return setTimeout(initMap,400);
-      const map = L.map(mapEl).setView([50.310472,14.735444],16);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-        attribution:'&copy; OpenStreetMap contributors'
-      }).addTo(map);
-      L.marker([50.310472,14.735444]).addTo(map).bindPopup('Umělecké truhlářství Martin Blažek<br>Dolní Slivno 118, 29478').openPopup();
-    }catch(e){
-      console.warn('Map init failed',e);
-    }
-  }
-  initMap();
-})();
-(function(){
-  const body = document.body;
-  let lastScroll = 0;
-  let lastTime = Date.now();
-  let speed = 0;
-  function spawnBubble(x){
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    const size = 6 + Math.random()*18;
-    b.style.width = size + 'px';
-    b.style.height = size + 'px';
-    b.style.left = (x || (10 + Math.random()*80)) + 'vw';
-    b.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.5))`;
-    document.body.appendChild(b);
-    const duration = 2600 + Math.random()*2200;
-    b.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-120vh)',opacity:0}],{duration:duration,iterations:1,easing:'linear'});
-    setTimeout(()=> b.remove(), duration + 50);
-  }
-  window.addEventListener('scroll', function(e){
-    const y = window.scrollY;
-    const now = Date.now();
-    const dt = Math.max(16, now - lastTime);
-    speed = Math.abs(y - lastScroll) / dt * 1000;
-    lastScroll = y;
-    lastTime = now;
-    if(speed > 250){
-      for(let i=0;i<3;i++) spawnBubble(10 + Math.random()*80);
-    }
-  }, {passive:true});
-})();
-(function(){
-  const imgs = document.querySelectorAll('.card img, .slide img');
-  imgs.forEach(img=>{
-    img.loading = 'lazy';
-    img.decoding = 'async';
-  });
-})();
-(function(){
-  const maxAutoLoad = 68;
-  const albumId = 'llL7zlw';
-  function fetchImgurAlbumSafely(){
-    return new Promise((resolve)=>{
-      const embed = document.createElement('blockquote');
-      embed.className = 'imgur-embed-pub';
-      embed.setAttribute('data-id', albumId);
-      const a = document.createElement('a');
-      a.href = '//imgur.com/a/' + albumId;
-      a.textContent = 'album';
-      embed.appendChild(a);
-      document.body.appendChild(embed);
-      const s = document.createElement('script');
-      s.src = '//s.imgur.com/min/embed.js';
-      s.async = true;
-      s.onload = function(){
-        setTimeout(function(){
-          const imgs = Array.from(document.querySelectorAll('.imgur-embed-image-link img')).map(i=>i.src);
-          resolve(imgs.slice(0, maxAutoLoad));
-        },400);
-      };
-      s.onerror = function(){ resolve([]); };
-      document.head.appendChild(s);
-      setTimeout(()=> resolve([]), 3000);
+});
+
+slideshowTrigger.addEventListener('click', () => {
+    clearInterval(slideInterval);
+    modal.classList.add('open');
+    document.querySelectorAll('#modal-grid img').forEach(img => lazyObserver.observe(img));
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.classList.remove('open');
+    startSlideshow(); 
+});
+
+// --- 5. GSAP SCROLL ANIMATIONS ---
+function initAnimations() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('.section-title').forEach(title => {
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: "top 80%"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1
+        });
     });
-  }
-  fetchImgurAlbumSafely().then(list=>{
-    if(list && list.length){
-      const slides = document.querySelectorAll('.slide img');
-      slides.forEach((img,i)=>{
-        img.src = list[i % list.length];
-      });
-    }
-  });
-})();
-(function(){
-  const els = document.querySelectorAll('a[href^="#"]');
-  els.forEach(a=>{
-    a.addEventListener('click', function(e){
-      const href = this.getAttribute('href');
-      if(href.length > 1){
-        e.preventDefault();
-        const el = document.querySelector(href);
-        if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-      }
+
+    gsap.utils.toArray('.service-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 85%"
+            },
+            y: 100,
+            opacity: 0,
+            duration: 0.8,
+            delay: i * 0.1
+        });
     });
-  });
-})();
-(function(){
-  const cert = document.getElementById('certificate');
-  cert.addEventListener('error', function(){ cert.style.display = 'none'; });
-})();
-(function(){
-  const ua = navigator.userAgent || '';
-  if(/Mobi|Android|iPhone|iPad|iPod/i.test(ua)){
-    document.documentElement.classList.add('is-mobile');
-  }
-})();
-(function(){
-  try{
-    const style = document.createElement('style');
-    style.innerHTML = '@media (hover:none){ .cursor{display:none!important} }';
-    document.head.appendChild(style);
-  }catch(e){}
-})();
+
+    gsap.from('.reveal-image', {
+        scrollTrigger: {
+            trigger: '.reveal-image',
+            start: "top 70%"
+        },
+        scale: 0.9,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.out"
+    });
+
+    startSlideshow();
+}
+
+// --- 6. MAP ---
+const map = L.map('map', { scrollWheelZoom: false }).setView([50.310472, 14.735444], 14);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
+}).addTo(map);
+
+const icon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/mbvhostingcz-eng/Web/main/IMG_2876.jpeg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    className: 'logo-img' 
+});
+
+L.marker([50.310472, 14.735444], {icon: icon}).addTo(map)
+  .bindPopup('<b>Truhlářství Blažek</b><br>Dolní Slivno 118')
+  .openPopup();
+
 </script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 </body>
 </html>
