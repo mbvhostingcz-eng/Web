@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Umělecké truhlářství Martin Blažek</title>
-<meta name="description" content="Úpravy a renovace nábytku na míru — Umělecké truhlářství Martin Blažek" />
+<meta name="description" content="Úpravy a renovace nábytku na míru. Umělecké truhlářství Martin Blažek" />
 <meta name="theme-color" content="#ffffff" />
 <link rel="icon" type="image/png" href="https://i.imgur.com/BnSo4og.jpeg">
 
@@ -216,7 +216,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 .f-bottom{padding-top:30px;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;letter-spacing:1px;color:#aaa}
 .made-by{font-family:var(--p-font-hand);font-size:0.9rem;color:#ccc}
 
-/* Responsive - TABLET/PC MENŠÍ */
+/* Responsive */
 @media (max-width:1200px){
   .s-grid, .contact-zone, .f-main { grid-template-columns: 1fr; gap: 30px; }
   .h-title { font-size: 10vw; }
@@ -225,40 +225,21 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   #map-canvas{height:360px}
 }
 
-/* Responsive - MOBILNÍ TELEFONY */
 @media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.96);
-  }
+  nav { flex-direction: column; padding: 15px; background: rgba(255, 255, 255, 0.96); }
   nav.scrolled { padding: 10px 15px; }
-  
   .n-brand { margin-bottom: 12px; font-size: 1.2rem; }
-  
-  .n-links {
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
+  .n-links { gap: 15px; flex-wrap: wrap; justify-content: center; width: 100%; }
   .n-links a { font-size: 0.75rem; }
-
-  section { padding: 60px 5vw; } /* Méně paddingu na mobilu */
-  
+  section { padding: 60px 5vw; }
   .h-title { font-size: 12vw; margin-top: 40px; }
   .h-sub { font-size: 0.8rem; }
-  
   .s-head { font-size: 2.2rem; }
   .s-head::before { top: -25px; font-size: 0.7rem; }
-  
   .s-item { padding: 30px; }
-  
   .slider-highlight-wrapper { margin: 30px 0; }
   .p-slider { height: 40vh; }
-  
   .g-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-  
   footer { padding: 60px 5vw 30px; }
   .f-bottom { flex-direction: column; gap: 15px; text-align: center; }
 }
@@ -300,7 +281,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 <section id="about">
   <h2 class="s-head">O nás</h2>
   <div class="p-text-block">
-    <p>Specializujeme se na úpravy a renovace nábytku — od drobných oprav až po kompletní přestavby a custom řešení. Pracujeme s respektem k materiálu a tradici, ale s moderní technikou a citlivým designem.</p>
+    <p>Specializujeme se na úpravy a renovace nábytku, od drobných oprav až po kompletní přestavby a custom řešení. Pracujeme s respektem k materiálu a tradici, ale s moderní technikou a citlivým designem.</p>
     <p style="margin-top:20px;">Nabízíme konzultaci, odhad a návrh řešení přesně podle vašich potřeb. Věnujeme pozornost detailu a dlouhodobé funkčnosti.</p>
   </div>
 </section>
@@ -507,7 +488,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
       const wrap = document.createElement('div');
       wrap.className = 'g-item';
       wrap.innerHTML = `<img src="${src}" loading="lazy" alt="Práce">`;
-      wrap.addEventListener('click', ()=> window.open(src, '_blank'));
+      // ZDE ODSTRANĚNO: wrap.addEventListener... (proklik na Imgur)
       gGrid.appendChild(wrap);
     });
     gFull.style.display = 'block';
