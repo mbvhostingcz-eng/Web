@@ -1,1 +1,378 @@
-web downed | contact admin
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Úpravy nábytku — Martin Blažek</title>
+<meta name="description" content="Úpravy a renovace nábytku na míru — umělecké truhlářství Martin Blažek" />
+<link rel="icon" type="image/png" href="https://i.imgur.com/BnSo4og.jpeg">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0f0f10;
+  --panel:#ffffff;
+  --muted:#bdbdbd;
+  --accent:#d1b595;
+  --accent-dark:#8b5e3c;
+  --glass: rgba(255,255,255,0.04);
+  --radius:12px;
+  --ff-sans: 'Montserrat', sans-serif;
+  --ff-heading: 'Playfair Display', serif;
+  --ff-hand: 'Patrick Hand', cursive;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--ff-sans);
+  background: linear-gradient(135deg,#0b0b0c 0%, #121214 50%, #151516 100%);
+  color:#eee;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* BACKGROUND: animated soft blobs + subtle wood waves */
+.bg-wrap{
+  position:fixed;inset:0;z-index:-20;pointer-events:none;overflow:hidden;
+}
+.blob{
+  position:absolute;
+  filter: blur(60px) saturate(120%);
+  opacity:0.12;
+  mix-blend-mode: screen;
+  animation: floaty 18s ease-in-out infinite;
+}
+.blob.b1{width:520px;height:520px;background:linear-gradient(45deg,#d1b595,#f2d8be);left:-10%;top:5%;}
+.blob.b2{width:420px;height:420px;background:linear-gradient(45deg,#8b5e3c,#d1b595);right:-5%;bottom:10%;opacity:0.08;animation-duration:26s;}
+.blob.b3{width:640px;height:640px;background:linear-gradient(45deg,#ffffff10,#d1b595);left:30%;top:55%;opacity:0.06;animation-duration:22s;}
+
+@keyframes floaty{
+  0%{transform: translateY(0) translateX(0)}
+  50%{transform: translateY(-40px) translateX(20px)}
+  100%{transform: translateY(0) translateX(0)}
+}
+
+/* subtle wood wave (keeps your original style but lighter) */
+.wood-wave{
+  position:absolute;left:0;right:0;height:260px;bottom:-40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 200'%3E%3Cpath fill='%23000000' fill-opacity='0.03' d='M0 100 C200 40 400 160 600 100 C800 40 1000 160 1200 100 C1400 40 1600 160 V200 H0 Z'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  animation: wave 40s linear infinite;
+  transform: translateZ(0);
+}
+@keyframes wave{ from{background-position-x:0} to{background-position-x:-1600px} }
+
+/* NAV */
+nav{
+  position:fixed;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;z-index:1000;
+  gap:20px;
+}
+.brand{
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;
+  font-weight:700;font-size:1.1rem;font-family:var(--ff-heading);
+  padding:10px 16px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.03);
+}
+.navlinks{display:flex;gap:18px;align-items:center}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:8px 12px;border-radius:8px;transition:all .25s}
+.navlinks a:hover{color:#fff;background:var(--glass);transform:translateY(-3px)}
+
+/* HEADER */
+header{
+  min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;
+}
+.header-inner{max-width:1000px}
+h1{font-family:var(--ff-heading);font-size:clamp(2.6rem,6vw,4.6rem);letter-spacing:1px;margin-bottom:8px;color:#fff}
+.lead{color:var(--muted);font-size:1rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px}
+
+/* glass panel CTA */
+.cta-panel{
+  margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+}
+.cta{
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.04);
+  padding:14px 20px;border-radius:12px;color:#fff;text-decoration:none;font-weight:600;
+  transition:transform .2s ease;
+}
+.cta:hover{transform:translateY(-6px)}
+
+/* sections */
+section{padding:100px 6vw;max-width:1200px;margin:0 auto}
+.s-head{font-family:var(--ff-heading);font-size:2.2rem;margin-bottom:18px;color:#fff}
+.p-block{color:var(--muted);max-width:820px}
+
+/* services grid */
+.s-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:30px}
+.s-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:26px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+.s-card h3{font-family:var(--ff-heading);margin-bottom:8px}
+
+/* slider */
+.slider{height:62vh;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03)}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.08);transition:opacity 1.2s ease, transform 8s cubic-bezier(.2,.9,.2,.95)}
+.slide.active{opacity:1;transform:scale(1)}
+.slide::after{content:'';position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(to top, rgba(0,0,0,0.45), transparent)}
+
+/* gallery grid */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:28px}
+.g-item{border-radius:8px;overflow:hidden;height:0;padding-bottom:75%;position:relative;background:#111}
+.g-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s, filter .5s}
+.g-item:hover img{transform:scale(1.06);filter:brightness(1.05)}
+
+/* cert frame big box bottom */
+.cert-big{margin-top:40px;padding:28px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;min-height:320px;border:1px solid rgba(255,255,255,0.02)}
+.cert-big img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+
+/* contact / fb widget area */
+.contact-zone{display:grid;grid-template-columns:1fr 360px;gap:28px;margin-top:30px}
+.contact-card{padding:22px;border-radius:12px;background:linear-gradient(180deg,#0b0b0b, #0d0d0d);border:1px solid rgba(255,255,255,0.02)}
+.contact-card small{color:var(--muted);display:block;margin-bottom:6px;font-size:0.75rem}
+.contact-card p{font-family:var(--ff-heading);color:#fff}
+
+/* footer */
+footer{padding:50px 6vw;background:#070707;margin-top:60px;color:var(--muted)}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;align-items:start}
+.footer-brand{font-family:var(--ff-heading);color:#fff;font-size:1.1rem;margin-bottom:8px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:30px;font-size:0.82rem}
+.made-by{font-family:var(--ff-hand);font-size:0.9rem;color:var(--muted);opacity:0.9}
+
+/* responsive */
+@media (max-width:900px){
+  .contact-zone{grid-template-columns:1fr}
+  nav{left:14px;right:14px}
+  .footer-grid{grid-template-columns:1fr}
+  header{padding:5rem 1.25rem 3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-wrap">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wood-wave" aria-hidden="true"></div>
+</div>
+
+<nav>
+  <a class="brand" href="#"><img src="https://i.imgur.com/BnSo4og.jpeg" alt="logo" style="width:40px;height:40px;border-radius:8px;object-fit:cover"> MB BLAŽEK</a>
+  <div class="navlinks">
+    <a href="#about">O nás</a>
+    <a href="#services">Služby</a>
+    <a href="#work">Portfolio</a>
+    <a href="#contact">Kontakt</a>
+  </div>
+</nav>
+
+<header>
+  <div class="header-inner">
+    <h1>Úpravy nábytku & renovace — Martin Blažek</h1>
+    <div class="lead">Dřevo. Preciznost. Nový život pro starý nábytek.</div>
+
+    <div class="cta-panel">
+      <a class="cta" href="#services">Naše služby</a>
+      <a class="cta" href="#work">Zobrazit portfolio</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <h2 class="s-head">O nás</h2>
+  <div class="p-block">
+    <p>
+      Specializujeme se na úpravy a renovace nábytku — drobné i rozsáhlé zásahy, opravy, přelaky,
+      výměny kování a kompletní přestavby kusů nábytku podle přání zákazníka. Každý kus je ošetřen s důrazem
+      na detail a dlouhou životnost.
+    </p>
+  </div>
+</section>
+
+<section id="services">
+  <h2 class="s-head">Služby (úpravy nábytku)</h2>
+  <div class="s-grid">
+    <div class="s-card"><h3>Renovace povrchů</h3><p>Obnova laku, moření, matování, odstraňování poškození.</p></div>
+    <div class="s-card"><h3>Úprava rozměrů</h3><p>Zkracování, prodlužování, přizpůsobení nábytku přesně pro váš prostor.</p></div>
+    <div class="s-card"><h3>Výměna kování</h3><p>Instalace moderního nebo historického kování dle stylu kusu.</p></div>
+    <div class="s-card"><h3>Rekonstrukce konstrukce</h3><p>Oprava rámů, zesílení, doplnění chybějících částí.</p></div>
+    <div class="s-card"><h3>Custom design</h3><p>Přestavby a doplňky navržené a vyrobené na míru.</p></div>
+    <div class="s-card"><h3>Konzultace a odhad</h3><p>Posouzení stavu, návrh řešení a cenová kalkulace.</p></div>
+  </div>
+</section>
+
+<section id="work">
+  <h2 class="s-head">Portfolio</h2>
+
+  <!-- Slider -->
+  <div class="slider" id="slider"></div>
+
+  <!-- Gallery -->
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section id="contact">
+  <h2 class="s-head">Kontakt</h2>
+
+  <div class="contact-zone">
+    <div class="contact-card">
+      <small>Adresa</small>
+      <p>Dolní Slivno 118, 294 78 — Mladá Boleslav</p>
+
+      <small style="margin-top:14px">Email</small>
+      <p>Blazek-truhlar@seznam.cz</p>
+
+      <small style="margin-top:14px">Telefon</small>
+      <p>+420 123 456 789</p>
+
+      <small style="margin-top:14px">Co upravíme</small>
+      <p class="p-block" style="color:var(--muted)">Skříně, stoly, židle, kuchyňské dvířka, postele a další — přizpůsobíme nábytek vašim představám.</p>
+    </div>
+
+    <!-- Facebook widget placeholder: vlož svůj FB profil do proměnné FB_PAGE_URL v JS -->
+    <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,#0a0a0a,#0d0d0d);padding:10px">
+      <div id="fb-widget" style="width:100%;height:100%;">
+        <!-- JS naplní iframe sem -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px; padding-bottom:40px; max-width:1100px;margin:0 auto">
+  <h2 class="s-head">Certifikát / Volné okénko</h2>
+  <div class="cert-big">
+    <img src="https://i.imgur.com/certifikat.png" alt="Certifikát — vloženo">
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">MB BLAŽEK</div>
+      <div style="color:var(--muted);max-width:360px">Úpravy nábytku, renovace a custom řešení. Kontaktujte nás pro bezplatnou konzultaci a odhad.</div>
+    </div>
+    <div>
+      <h4 style="color:#fff;font-size:0.9rem;margin-bottom:6px">Rychlé odkazy</h4>
+      <ul style="list-style:none;color:var(--muted);padding-left:0">
+        <li style="margin-bottom:8px"><a href="#services" style="color:var(--muted);text-decoration:none">Služby</a></li>
+        <li style="margin-bottom:8px"><a href="#work" style="color:var(--muted);text-decoration:none">Portfolio</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#fff;font-size:0.9rem;margin-bottom:6px">Kontakt</h4>
+      <div style="color:var(--muted)">Dolní Slivno 118<br>Mladá Boleslav</div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div style="color:var(--muted)">&copy; 2025 Martin Blažek</div>
+    <div class="made-by">Made by Imagine  •  ©</div>
+  </div>
+</footer>
+
+<script>
+/* =========== -- KONFIGURACE -- =============
+ * Pokud chceš Facebook widget, vlož sem URL svého FB profilu/stránky
+ * např. const FB_PAGE_URL = 'https://www.facebook.com/username';
+ */
+const FB_PAGE_URL = 'https://www.facebook.com/yourpage-or-profile'; // <-- nahraď URL tady
+
+/* =========== galerie obrázků ==============
+   seznam přesně podle tvého seznamu (plné názvy i pořadí)
+*/
+const GALLERY_IMAGES = [
+"https://i.imgur.com/8TPuZpS.jpeg","https://i.imgur.com/CNhz3zG.jpeg","https://i.imgur.com/RKbJDDL.jpeg",
+"https://i.imgur.com/hzAIRpH.jpeg","https://i.imgur.com/KQJO6mJ.jpeg","https://i.imgur.com/yNnS8sy.jpeg",
+"https://i.imgur.com/U8UYy3P.jpeg","https://i.imgur.com/JQAPijW.jpeg","https://i.imgur.com/X8LKY9P.jpeg",
+"https://i.imgur.com/dEW4MYL.jpeg","https://i.imgur.com/AUURa6K.jpeg","https://i.imgur.com/rdu3en9.jpeg",
+"https://i.imgur.com/rtcsZcP.jpeg","https://i.imgur.com/6Kly0Jo.jpeg","https://i.imgur.com/xdQPXaT.jpeg",
+"https://i.imgur.com/wkZRWBs.jpeg","https://i.imgur.com/YAKBKA6.jpeg","https://i.imgur.com/5kfHpf3.jpeg",
+"https://i.imgur.com/Yd209jr.jpeg","https://i.imgur.com/vhcZlYp.jpeg","https://i.imgur.com/OHNMMzI.jpeg",
+"https://i.imgur.com/rgOb0Q5.jpeg","https://i.imgur.com/2AYo5f0.jpeg","https://i.imgur.com/P8ZFe7X.jpeg",
+"https://i.imgur.com/qTuZPg3.jpeg","https://i.imgur.com/7br33aG.jpeg","https://i.imgur.com/s6lzEWg.jpeg",
+"https://i.imgur.com/LnwvDFO.jpeg","https://i.imgur.com/0y848FY.jpeg","https://i.imgur.com/Omepy5t.jpeg",
+"https://i.imgur.com/1Kl3Ps5.jpeg","https://i.imgur.com/N2FpbSd.jpeg","https://i.imgur.com/YstxZrE.jpeg",
+"https://i.imgur.com/2TWSjJ8.jpeg","https://i.imgur.com/HKhJNwX.jpeg","https://i.imgur.com/xBd92Vb.jpeg",
+"https://i.imgur.com/XmK5JzN.jpeg","https://i.imgur.com/uhx68ul.jpeg","https://i.imgur.com/LFYk7m7.jpeg",
+"https://i.imgur.com/3Zyye2U.jpeg","https://i.imgur.com/y8Gnov6.jpeg","https://i.imgur.com/jYMr4yE.jpeg",
+"https://i.imgur.com/B7SQZBI.jpeg","https://i.imgur.com/nJPhZnX.jpeg","https://i.imgur.com/YEeiJex.jpeg",
+"https://i.imgur.com/HlplqOP.jpeg","https://i.imgur.com/OiyuZz8.jpeg","https://i.imgur.com/euih9GA.jpeg",
+"https://i.imgur.com/h6SMPi8.jpeg","https://i.imgur.com/fgPxLfE.jpeg","https://i.imgur.com/BbBbxyM.jpeg",
+"https://i.imgur.com/CJ3QSwu.jpeg","https://i.imgur.com/QjU2rCJ.jpeg","https://i.imgur.com/GxJUQ0L.jpeg",
+"https://i.imgur.com/tpxfLkv.jpeg","https://i.imgur.com/WPNUpqY.jpeg","https://i.imgur.com/bDjcZeL.jpeg",
+"https://i.imgur.com/sO1yS2B.jpeg","https://i.imgur.com/fpumapm.jpeg","https://i.imgur.com/iCmTeG2.jpeg",
+"https://i.imgur.com/Mn4JFmB.jpeg","https://i.imgur.com/CHugdrN.jpeg","https://i.imgur.com/t8cstth.jpeg",
+"https://i.imgur.com/gUfyB7b.jpeg","https://i.imgur.com/wXBEEAk.jpeg","https://i.imgur.com/sEIj339.jpeg",
+"https://i.imgur.com/MF7dhcC.jpeg"
+];
+
+/* ---------------- slider init --------------- */
+const sliderEl = document.getElementById('slider');
+let current = 0;
+
+// use first 8 images for hero slider (or fewer if not available)
+const SLIDER_IMAGES = GALLERY_IMAGES.slice(0, Math.min(8, GALLERY_IMAGES.length));
+
+function buildSlider(){
+  SLIDER_IMAGES.forEach((src, i) => {
+    const s = document.createElement('div');
+    s.className = 'slide' + (i===0 ? ' active' : '');
+    s.style.backgroundImage = `url(${src})`;
+    sliderEl.appendChild(s);
+  });
+}
+buildSlider();
+
+setInterval(()=>{
+  const slides = document.querySelectorAll('.slide');
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}, 5000);
+
+/* --------------- gallery -------------- */
+const gEl = document.getElementById('gallery');
+GALLERY_IMAGES.forEach(src=>{
+  const wrap = document.createElement('div');
+  wrap.className = 'g-item';
+  const img = document.createElement('img');
+  img.src = src;
+  img.loading = 'lazy';
+  wrap.appendChild(img);
+  // open full image in new tab on click (simple lightbox alternative)
+  wrap.addEventListener('click', ()=> window.open(src,'_blank'));
+  gEl.appendChild(wrap);
+});
+
+/* ---------------- Facebook widget --------------- */
+(function renderFbWidget(){
+  const container = document.getElementById('fb-widget');
+  if(!FB_PAGE_URL || FB_PAGE_URL.includes('yourpage-or-profile')){
+    container.innerHTML = `<div style="padding:18px;color:var(--muted)"><strong>Nastav Facebook</strong><div style="margin-top:8px;color:var(--muted)">Vlož URL svého Facebook profilu do proměnné <code>FB_PAGE_URL</code> v horní části skriptu pro zobrazení widgetu.</div></div>`;
+    return;
+  }
+  const href = encodeURIComponent(FB_PAGE_URL);
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.facebook.com/plugins/page.php?href=${href}&tabs=timeline&width=340&height=250&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=`;
+  iframe.style.width = '100%';
+  iframe.style.height = '250px';
+  iframe.style.border = 'none';
+  iframe.style.overflow = 'hidden';
+  iframe.setAttribute('scrolling','no');
+  iframe.setAttribute('frameborder','0');
+  container.appendChild(iframe);
+})();
+
+/* optional: preload a few images to make slider smooth */
+(function preload(){
+  SLIDER_IMAGES.forEach(u=>{
+    const i=new Image(); i.src=u;
+  });
+})();
+</script>
+
+</body>
+</html>
