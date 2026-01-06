@@ -166,12 +166,27 @@ section.active{opacity:1;transform:translateY(0)}
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
 
-.g-full{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(250,250,248,0.98);z-index:6000;display:none;padding:60px 4vw;overflow-y:auto}
+.g-full{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,20,20,0.98);z-index:6000;display:none;padding:60px 4vw;overflow-y:auto}
 .g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
 .g-item{aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:#fff;border:1px solid rgba(30,30,30,0.03)}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:var(--p-transition-slow)}
 .g-item:hover img{transform:scale(1.04)}
-.g-close{position:fixed;top:30px;right:40px;font-size:2.2rem;z-index:6001;cursor:pointer;color:var(--p-text)}
+.g-close{position:fixed;top:30px;right:40px;font-size:2.2rem;z-index:6001;cursor:pointer;color:#fff}
+
+#zoom-container {
+    display: none;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+    width: 100%;
+}
+#zoom-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
 
 .s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#eee;margin-top:40px}
 .s-item{background:#fff;padding:48px;transition:var(--p-transition-mid)}
@@ -184,10 +199,38 @@ section.active{opacity:1;transform:translateY(0)}
 .c-info-row small{display:block;text-transform:uppercase;letter-spacing:2px;color:var(--p-accent-dark);margin-bottom:5px;font-size:0.7rem}
 .c-info-row p{font-size:1.2rem;font-family:var(--p-font-heading);color:var(--p-text)}
 
-.cert-section{padding:80px 0;text-align:center;border-top:1px solid #eee}
-.cert-frame{max-width:380px;margin:0 auto;padding:15px;border:1px solid var(--p-accent);background:#fff;border-radius:4px;box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s ease;}
-.cert-frame:hover { transform: translateY(-5px); }
-.cert-frame img{width:100%;height:auto;display: block;}
+.cert-section{padding:100px 0;text-align:center;border-top:1px solid #eee; overflow: hidden;}
+.cert-anim-box {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+.cert-card {
+    position: absolute;
+    transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border: 8px solid #fff;
+    cursor: zoom-in;
+    width: 45%;
+    max-width: 400px;
+}
+.cert-card img { width: 100%; display: block; }
+.c-primary { z-index: 5; transform: rotate(-2deg); }
+.c-secondary { z-index: 4; transform: rotate(0deg) scale(0.8); opacity: 0; }
+
+.cert-section.active .c-primary {
+    transform: translateX(-130px) rotate(-4deg);
+}
+.cert-section.active .c-secondary {
+    transform: translateX(130px) rotate(4deg) scale(1);
+    opacity: 1;
+}
 
 #map-canvas{width:100%;height:520px;margin-top:50px;border-radius:8px;overflow:hidden;filter:grayscale(1);transition:var(--p-transition-slow)}
 #map-canvas:hover{filter:grayscale(0)}
@@ -228,6 +271,9 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   .g-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
   footer { padding: 60px 5vw 30px; }
   .f-bottom { flex-direction: column; gap: 15px; text-align: center; }
+  
+  .cert-anim-box { height: auto; flex-direction: column; gap: 30px; padding: 20px 0; }
+  .cert-card { position: relative; transform: none !important; width: 85%; opacity: 1 !important; }
 }
 </style>
 </head>
@@ -285,8 +331,9 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 
 <div class="g-full" id="g-full" aria-hidden="true">
   <div class="g-close" id="g-close" aria-label="Zavřít galerii">&times;</div>
-  <h2 class="s-head" style="margin-bottom: 30px;">Galerie prací</h2>
+  <h2 class="s-head" id="g-title" style="margin-bottom: 30px; color:#fff;">Galerie prací</h2>
   <div class="g-grid" id="g-grid"></div>
+  <div id="zoom-container"></div>
 </div>
 
 <section id="vyroba">
@@ -332,13 +379,12 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 </section>
 
 <div class="cert-section">
-  <div class="cert-frame">
-    <img src="https://i.imgur.com/QDIR8Ol.jpeg" alt="Certifikát o dotaci">
-  </div>
-  <div style="margin-top:40px;padding:0 20px">
-    <p style="margin-bottom:15px;color:var(--p-accent-dark);font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:0.9rem">Pořízení nových technologií</p>
-    <div class="cert-frame" style="max-width:550px">
-      <img src="https://i.imgur.com/ikwzhMW.jpeg" alt="Nové vybavení dílny">
+  <div class="cert-anim-box">
+    <div class="cert-card c-primary" onclick="openZoom('https://i.imgur.com/QDIR8Ol.jpeg')">
+      <img src="https://i.imgur.com/QDIR8Ol.jpeg" alt="Certifikát o dotaci">
+    </div>
+    <div class="cert-card c-secondary" onclick="openZoom('https://i.imgur.com/ikwzhMW.jpeg')">
+       <img src="https://i.imgur.com/ikwzhMW.jpeg" alt="Nové vybavení dílny">
     </div>
   </div>
 </div>
@@ -349,7 +395,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   <div class="f-main">
     <div><span class="f-brand">MB BLAŽEK</span><p>Zakázková výroba · restaurování · design</p></div>
     <div class="f-col"><h4>Rychlé</h4><ul class="f-links"><li><a href="#vyroba">Výroba</a></li><li><a href="#restaurovani">Restaurování</a></li><li><a href="#work">Portfolio</a></li></ul></div>
-    <div class="f-col"><h4>Odkazy</h4><ul class="f-links"><li><a href="https://m.facebook.com/100083111833665/">Facebook</a></li></ul></div>
+    <div class="f-col"><h4>Odkazy</h4><ul class="f-links"><li><a href="https://m.facebook.com/100083111833665/" target="_blank" rel="noopener noreferrer">Facebook</a></li></ul></div>
     <div class="f-col"><h4>Kontakt</h4><p>Dolní Slivno 118<br>Mladá Boleslav</p></div>
   </div>
   <div class="f-bottom">
@@ -425,7 +471,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
   }, { threshold: 0.12 });
-  document.querySelectorAll('section').forEach(s => observer.observe(s));
+  document.querySelectorAll('section, .cert-section').forEach(s => observer.observe(s));
 
   window.addEventListener('scroll', () => {
     const n = document.getElementById('nav');
@@ -481,13 +527,36 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   window.openGallery = function(){
     const gFull = document.getElementById('g-full');
     const gGrid = document.getElementById('g-grid');
+    const zCont = document.getElementById('zoom-container');
+    const gTitle = document.getElementById('g-title');
+    
+    gTitle.style.display = 'block';
+    gGrid.style.display = 'grid';
+    zCont.style.display = 'none';
     gGrid.innerHTML = '';
+    
     images.forEach(src => {
       const wrap = document.createElement('div');
       wrap.className = 'g-item';
       wrap.innerHTML = `<img src="${src}" loading="lazy" alt="Práce">`;
       gGrid.appendChild(wrap);
     });
+    gFull.style.display = 'block';
+    gFull.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.openZoom = function(src){
+    const gFull = document.getElementById('g-full');
+    const gGrid = document.getElementById('g-grid');
+    const zCont = document.getElementById('zoom-container');
+    const gTitle = document.getElementById('g-title');
+
+    gGrid.style.display = 'none';
+    gTitle.style.display = 'none';
+    zCont.style.display = 'flex';
+    zCont.innerHTML = `<img src="${src}" id="zoom-img">`;
+
     gFull.style.display = 'block';
     gFull.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
