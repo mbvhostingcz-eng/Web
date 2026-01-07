@@ -203,7 +203,7 @@ section.active{opacity:1;transform:translateY(0)}
 .cert-anim-box {
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 1100px;
     height: 500px;
     margin: 0 auto;
     display: flex;
@@ -217,18 +217,23 @@ section.active{opacity:1;transform:translateY(0)}
     box-shadow: 0 20px 50px rgba(0,0,0,0.15);
     border: 8px solid #fff;
     cursor: zoom-in;
-    width: 45%;
-    max-width: 400px;
+    width: 30%;
+    max-width: 340px;
 }
 .cert-card img { width: 100%; display: block; }
-.c-primary { z-index: 5; transform: rotate(-2deg); }
-.c-secondary { z-index: 4; transform: rotate(0deg) scale(0.8); opacity: 0; }
+.c-primary { z-index: 5; transform: rotate(-3deg); }
+.c-secondary { z-index: 4; transform: rotate(3deg) scale(0.95); opacity: 0; }
+.c-tertiary { z-index: 6; transform: scale(0.9); opacity: 0; }
 
 .cert-section.active .c-primary {
-    transform: translateX(-130px) rotate(-4deg);
+    transform: translateX(-110%) rotate(-5deg);
 }
 .cert-section.active .c-secondary {
-    transform: translateX(130px) rotate(4deg) scale(1);
+    transform: translateX(110%) rotate(5deg);
+    opacity: 1;
+}
+.cert-section.active .c-tertiary {
+    transform: translateY(-20px) scale(1.1);
     opacity: 1;
 }
 
@@ -273,7 +278,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   .f-bottom { flex-direction: column; gap: 15px; text-align: center; }
   
   .cert-anim-box { height: auto; flex-direction: column; gap: 30px; padding: 20px 0; }
-  .cert-card { position: relative; transform: none !important; width: 85%; opacity: 1 !important; }
+  .cert-card { position: relative; transform: none !important; width: 85%; opacity: 1 !important; margin-bottom: 0; max-width: none; }
 }
 </style>
 </head>
@@ -382,6 +387,9 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   <div class="cert-anim-box">
     <div class="cert-card c-primary" onclick="openZoom('https://i.imgur.com/QDIR8Ol.jpeg')">
       <img src="https://i.imgur.com/QDIR8Ol.jpeg" alt="Certifikát o dotaci">
+    </div>
+    <div class="cert-card c-tertiary" onclick="openZoom('https://i.imgur.com/2iyTUh0.jpeg')">
+      <img src="https://i.imgur.com/2iyTUh0.jpeg" alt="Certifikát">
     </div>
     <div class="cert-card c-secondary" onclick="openZoom('https://i.imgur.com/ikwzhMW.jpeg')">
        <img src="https://i.imgur.com/ikwzhMW.jpeg" alt="Nové vybavení dílny">
