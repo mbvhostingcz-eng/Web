@@ -1,0 +1,4 @@
+// fotky- 2x galerie.restaurovani x vyroba
+index- bing,google, seznam
+cloudflare- allow bot (pending)
+bublinky -
