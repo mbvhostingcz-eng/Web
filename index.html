@@ -4,18 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Umělecké truhlářství Martin Blažek</title>
-<meta name="description" content="Úpravy, výroba a renovace nábytku na míru. Umělecké truhlářství Martin Blažek - Dolní Slivno, Benátky nad Jizerou, okres Mladá Boleslav, Středočeský Kraj. Levně, kvalitně a spolehlivě" />
+<meta name="description" content="Úpravy, výroba a renovace nábytku na míru. Umělecké truhlářství Martin Blažek - Dolní Slivno, Benátky nad Jizerou, okres Mladá Boleslav. Poctivé řemeslo s citem pro detail." />
 <meta name="theme-color" content="#ffffff" />
-  <meta name="msvalidate.01" content="7D386E245CA1652EBEEFFFCC0C7036A0" />
-  <meta name="seznam-wmt" content="Kx79NKPl20YYziP0c7YuXSZh4Lx4qF7a" />
 <link rel="icon" type="image/png" href="https://i.imgur.com/BnSo4og.jpeg">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Patrick+Hand&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
 <style>
 :root {
   --p-bg: #fbf8f3;
@@ -31,76 +26,23 @@
   --p-font-logo: 'Cinzel', serif;
   --p-font-hand: 'Patrick Hand', cursive;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html,body { height:100%; }
-body {
-  background-color: var(--p-bg);
-  color: var(--p-text);
-  font-family: var(--p-font-main);
-  line-height: 1.8;
-  overflow-x: hidden;
-  font-weight: 300;
-}
-
-#c-cursor {
-  position: fixed;
-  width: 35px;
-  height: 35px;
-  background: url('https://i.imgur.com/X7m2tpd.png') no-repeat center center;
-  background-size: contain;
-  pointer-events: none;
-  z-index: 100000;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
-  transition: transform 0.1s linear, opacity 0.3s ease;
-}
+body { background-color: var(--p-bg); color: var(--p-text); font-family: var(--p-font-main); line-height: 1.8; overflow-x: hidden; font-weight: 300; }
+#c-cursor { position: fixed; width: 35px; height: 35px; background: url('https://i.imgur.com/X7m2tpd.png') no-repeat center center; background-size: contain; pointer-events: none; z-index: 100000; transform: translate(-50%, -50%); mix-blend-mode: multiply; transition: transform 0.1s linear, opacity 0.3s ease; }
 #c-cursor.hidden { opacity: 0; }
-
 .bg-engine { position: fixed; inset: 0; z-index: -10; pointer-events: none; overflow: hidden; }
-
-.wood-lines {
-  position:absolute; inset:0; z-index:-9; opacity:0.95; pointer-events:none;
-  background-image:
-    linear-gradient(90deg, rgba(139,94,60,0.01) 1px, transparent 1px 60px),
-    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.0));
-  background-size: 120px 120px;
-  animation: woodShift 40s linear infinite;
-}
+.wood-lines { position:absolute; inset:0; z-index:-9; opacity:0.95; pointer-events:none; background-image: linear-gradient(90deg, rgba(139,94,60,0.01) 1px, transparent 1px 60px), linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.0)); background-size: 120px 120px; animation: woodShift 40s linear infinite; }
 @keyframes woodShift { from{background-position-x:0} to{background-position-x:240px} }
-
-.wood-wave {
-  position:absolute; width:200%; height:100%; opacity:0.08;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 800'%3E%3Cpath fill='%23d1b595' d='M0,400 C200,350 400,450 600,400 C800,350 1000,450 1200,400 C1400,350 1600,450 1800,400 L1800,800 L0,800 Z'/%3E%3C/svg%3E");
-  background-repeat: repeat-x; background-position: bottom;
-}
+.wood-wave { position:absolute; width:200%; height:100%; opacity:0.08; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 800'%3E%3Cpath fill='%23d1b595' d='M0,400 C200,350 400,450 600,400 C800,350 1000,450 1200,400 C1400,350 1600,450 1800,400 L1800,800 L0,800 Z'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-position: bottom; }
 .w-1 { bottom: 0; animation: waveMove 30s linear infinite; opacity:0.07; }
 .w-2 { bottom: 60px; opacity: 0.04; animation: waveMove 45s linear infinite reverse; }
 @keyframes waveMove { from { transform: translateX(0);} to { transform: translateX(-50%); } }
-
-#bubble-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5; pointer-events: none; overflow: visible; }
-.b-drop {
-  position: absolute;
-  background: radial-gradient(circle at 30% 30%, rgba(139, 94, 60, 0.6), rgba(209, 181, 149, 0.4));
-  border-radius: 50%;
-  pointer-events: none;
-  animation: b-float linear forwards;
-  filter: blur(0px);
-  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.1);
-}
-@keyframes b-float {
-  0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-}
-
 .p-loader { position: fixed; inset:0; background: #fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:200000; transition: opacity 1.2s cubic-bezier(0.7,0,0.3,1); }
 .p-loader img{width:60px;margin-bottom:20px; animation:p-pulse 2s infinite ease-in-out;}
 @keyframes p-pulse {0%,100%{opacity:0.3;transform:scale(0.95)}50%{opacity:1;transform:scale(1.05)}}
 .l-bar{width:200px;height:1px;background:var(--p-soft);position:relative;overflow:hidden}
 .l-prog{position:absolute;top:0;left:0;height:100%;width:0;background:var(--p-accent);transition:width 0.4s ease}
-
 nav{position:fixed;top:0;width:100%;padding:28px 60px;display:flex;justify-content:space-between;align-items:center;z-index:1000;transition:var(--p-transition-slow)}
 nav.scrolled{padding:14px 60px;background:rgba(255,255,255,0.9);backdrop-filter: blur(10px);border-bottom:1px solid rgba(209,181,149,0.08)}
 .n-brand{font-family:var(--p-font-logo);font-size:1.4rem;font-weight:700;letter-spacing:3px;color:var(--p-text);text-decoration:none}
@@ -108,14 +50,12 @@ nav.scrolled{padding:14px 60px;background:rgba(255,255,255,0.9);backdrop-filter:
 .n-links a{ text-decoration:none;color:var(--p-text);font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;font-weight:500;position:relative;padding:6px 0}
 .n-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--p-accent-dark);transition:var(--p-transition-mid)}
 .n-links a:hover::after{width:100%}
-
 header{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:radial-gradient(circle at center, rgba(255,255,255,0) 0%, rgba(253,248,241,0.6) 100%)}
 .h-wrap{overflow:hidden}
 .h-title{font-family:var(--p-font-heading);font-size:6vw;line-height:1.05;color:var(--p-text);font-weight:400;opacity:0;transform:translateY(100px)}
 .h-sub{font-size:1rem;letter-spacing:8px;text-transform:uppercase;margin-top:20px;color:var(--p-accent-dark);opacity:0;transform:translateY(50px)}
 .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; opacity: 0; transition: opacity 2s 2s; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform:translate(-50%,0)} 40% {transform:translate(-50%, -10px)} 60% {transform:translate(-50%, -5px)} }
-
 section{padding:140px 10vw;opacity:0;transform:translateY(80px);transition:var(--p-transition-slow)}
 section.active{opacity:1;transform:translateY(0)}
 .s-head{font-family:var(--p-font-heading);font-size:3.1rem;margin-bottom:40px;position:relative;color:var(--p-text)}
@@ -123,125 +63,61 @@ section.active{opacity:1;transform:translateY(0)}
 #vyroba .s-head::before{content:'02';}
 #restaurovani .s-head::before{content:'03';}
 #contact .s-head::before{content:'04';}
-
 .p-text-block{max-width:900px;font-size:1.05rem;color:#555}
-
-.slider-highlight-wrapper {
-  position: relative;
-  padding: 6px;
-  border-radius: 12px;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: 0 15px 40px rgba(139, 94, 60, 0.15);
-  margin: 60px 0;
-  cursor: pointer;
-}
-.slider-highlight-wrapper::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%; width: 200%; height: 200%;
-  background: conic-gradient(transparent, transparent, var(--p-accent-dark), transparent, transparent);
-  animation: rotate-border 4s linear infinite;
-  z-index: 1;
-}
-@keyframes rotate-border { 100% { transform: rotate(360deg); } }
+.slider-highlight-wrapper { position: relative; padding: 6px; border-radius: 12px; background: #fff; overflow: hidden; box-shadow: 0 15px 40px rgba(139, 94, 60, 0.15); margin: 60px 0; }
 .slider-inner-bg { position: relative; z-index: 2; background: #fff; border-radius: 8px; width: 100%; height: 100%; overflow: hidden; }
-
 .p-slider{width:100%;height:70vh;position:relative;overflow:hidden;background:#f0f0f0}
 .p-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.8s ease, transform 6s linear}
 .p-slide.active{opacity:1;transform:scale(1)}
-.p-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.3), transparent)}
-
-.gallery-cta {
-  position: absolute; bottom: 30px; right: 30px; z-index: 10;
-  background: rgba(255, 255, 255, 0.95); color: var(--p-accent-dark);
-  padding: 12px 24px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-  border-radius: 30px; font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  animation: pulse-cta 2s infinite; pointer-events: none;
-  display: flex; align-items: center; gap: 10px;
-}
-.gallery-cta::after { content: '→'; font-size: 1.2em; }
-@keyframes pulse-cta {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-}
-
-.g-full{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,20,20,0.98);z-index:6000;display:none;padding:60px 4vw;overflow-y:auto}
-.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-.g-item{aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:#fff;border:1px solid rgba(30,30,30,0.03)}
+.p-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.4), transparent)}
+.gallery-cta-container { position: absolute; bottom: 30px; left: 0; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 10; padding: 0 20px; }
+.gallery-cta { background: rgba(255, 255, 255, 0.95); color: var(--p-accent-dark); padding: 14px 28px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-radius: 30px; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; }
+.gallery-cta:hover { background: var(--p-accent-dark); color: #fff; transform: translateY(-3px); }
+.g-full{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,20,20,0.98);z-index:6000;display:none;padding:80px 4vw 40px;overflow-y:auto}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.g-item{aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:#111;border:1px solid rgba(255,255,255,0.05); cursor: pointer; position: relative;}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:var(--p-transition-slow)}
-.g-item:hover img{transform:scale(1.04)}
-.g-close{position:fixed;top:30px;right:40px;font-size:2.2rem;z-index:6001;cursor:pointer;color:#fff}
-
-#zoom-container {
-    display: none;
-    justify-content: center; 
-    align-items: center; 
-    height: 100%;
-    width: 100%;
-}
-#zoom-img {
-    max-width: 90vw;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 4px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-}
-
+.g-item:hover img{transform:scale(1.05)}
+.g-item-label { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.g-controls { position: fixed; top: 20px; left: 40px; right: 40px; display: flex; justify-content: space-between; align-items: center; z-index: 6001; }
+.g-btn { color: #fff; font-size: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s; background: none; border: none; outline: none; }
+.g-btn:hover { color: var(--p-accent); }
+.g-close { font-size: 2.5rem; line-height: 1; }
+#flip-container { display: none; width: 100%; height: calc(100vh - 120px); position: relative; perspective: 1500px; align-items: center; justify-content: center; margin-top: 20px;}
+.flip-img { max-width: 90vw; max-height: 80vh; object-fit: contain; position: absolute; box-shadow: 0 0 40px rgba(0,0,0,0.6); transform-style: preserve-3d; backface-visibility: hidden; }
+.flip-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 20px; cursor: pointer; font-size: 1.5rem; z-index: 10; border-radius: 50%; transition: 0.3s; }
+.flip-nav:hover { background: var(--p-accent-dark); }
+.flip-prev { left: 20px; }
+.flip-next { right: 20px; }
+.page-turn-next-out { animation: turnNextOut 0.6s forwards ease-in; }
+.page-turn-next-in { animation: turnNextIn 0.6s forwards ease-out; }
+.page-turn-prev-out { animation: turnPrevOut 0.6s forwards ease-in; }
+.page-turn-prev-in { animation: turnPrevIn 0.6s forwards ease-out; }
+@keyframes turnNextOut { 0% { transform: rotateY(0deg); transform-origin: left; opacity: 1; } 100% { transform: rotateY(-90deg); transform-origin: left; opacity: 0; } }
+@keyframes turnNextIn { 0% { transform: rotateY(90deg); transform-origin: right; opacity: 0; } 100% { transform: rotateY(0deg); transform-origin: right; opacity: 1; } }
+@keyframes turnPrevOut { 0% { transform: rotateY(0deg); transform-origin: right; opacity: 1; } 100% { transform: rotateY(90deg); transform-origin: right; opacity: 0; } }
+@keyframes turnPrevIn { 0% { transform: rotateY(-90deg); transform-origin: left; opacity: 0; } 100% { transform: rotateY(0deg); transform-origin: left; opacity: 1; } }
 .s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#eee;margin-top:40px}
 .s-item{background:#fff;padding:48px;transition:var(--p-transition-mid)}
 .s-item:hover{background:var(--p-accent-light)}
 .s-item h3{font-family:var(--p-font-heading);font-size:1.3rem;margin-bottom:10px}
-
 .contact-zone{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px}
 .c-info-card{padding:40px;background:var(--p-soft);border-radius:8px}
 .c-info-row{margin-bottom:20px}
 .c-info-row small{display:block;text-transform:uppercase;letter-spacing:2px;color:var(--p-accent-dark);margin-bottom:5px;font-size:0.7rem}
 .c-info-row p{font-size:1.2rem;font-family:var(--p-font-heading);color:var(--p-text)}
-
 .cert-section{padding:100px 0;text-align:center;border-top:1px solid #eee; overflow: hidden;}
-.cert-anim-box {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    height: 500px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
-}
-.cert-card {
-    position: absolute;
-    transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    border: 8px solid #fff;
-    cursor: zoom-in;
-    width: 30%;
-    max-width: 340px;
-}
+.cert-anim-box { position: relative; width: 100%; max-width: 1100px; height: 500px; margin: 0 auto; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+.cert-card { position: absolute; transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 8px solid #fff; cursor: zoom-in; width: 30%; max-width: 340px; }
 .cert-card img { width: 100%; display: block; }
 .c-primary { z-index: 5; transform: rotate(-3deg); }
 .c-secondary { z-index: 4; transform: rotate(3deg) scale(0.95); opacity: 0; }
 .c-tertiary { z-index: 6; transform: scale(0.9); opacity: 0; }
-
-.cert-section.active .c-primary {
-    transform: translateX(-110%) rotate(-5deg);
-}
-.cert-section.active .c-secondary {
-    transform: translateX(110%) rotate(5deg);
-    opacity: 1;
-}
-.cert-section.active .c-tertiary {
-    transform: translateY(-20px) scale(1.1);
-    opacity: 1;
-}
-
+.cert-section.active .c-primary { transform: translateX(-110%) rotate(-5deg); }
+.cert-section.active .c-secondary { transform: translateX(110%) rotate(5deg); opacity: 1; }
+.cert-section.active .c-tertiary { transform: translateY(-20px) scale(1.1); opacity: 1; }
 #map-canvas{width:100%;height:520px;margin-top:50px;border-radius:8px;overflow:hidden;filter:grayscale(1);transition:var(--p-transition-slow)}
 #map-canvas:hover{filter:grayscale(0)}
-
 footer{background:#111;padding:100px 10vw 60px;color:#888}
 .f-main{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;border-bottom:1px solid #222;padding-bottom:40px}
 .f-brand{color:#fff;font-family:var(--p-font-logo);font-size:1.4rem;margin-bottom:12px}
@@ -252,7 +128,6 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 .f-links a:hover{color:var(--p-accent);padding-left:5px}
 .f-bottom{padding-top:30px;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;letter-spacing:1px;color:#aaa}
 .made-by{font-family:var(--p-font-hand);font-size:0.9rem;color:#ccc}
-
 @media (max-width:1200px){
   .s-grid, .contact-zone, .f-main { grid-template-columns: 1fr; gap: 30px; }
   .h-title { font-size: 10vw; }
@@ -260,7 +135,6 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   .p-slider{height:48vh}
   #map-canvas{height:360px}
 }
-
 @media (max-width: 768px) {
   nav { flex-direction: column; padding: 15px; background: rgba(255, 255, 255, 0.96); }
   nav.scrolled { padding: 10px 15px; }
@@ -273,12 +147,11 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   .s-head { font-size: 2.2rem; }
   .s-head::before { top: -25px; font-size: 0.7rem; }
   .s-item { padding: 30px; }
-  .slider-highlight-wrapper { margin: 30px 0; }
+  .gallery-cta-container { flex-direction: column; gap: 10px; }
   .p-slider { height: 40vh; }
-  .g-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .g-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
   footer { padding: 60px 5vw 30px; }
   .f-bottom { flex-direction: column; gap: 15px; text-align: center; }
-  
   .cert-anim-box { height: auto; flex-direction: column; gap: 30px; padding: 20px 0; }
   .cert-card { position: relative; transform: none !important; width: 85%; opacity: 1 !important; margin-bottom: 0; max-width: none; }
 }
@@ -299,12 +172,10 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   <div class="wood-wave w-2"></div>
 </div>
 
-<div id="bubble-field"></div>
-
 <nav id="nav">
   <a href="#" class="n-brand">UT MARTIN BLAŽEK</a>
   <div class="n-links">
-    <a href="#about">O nás</a>
+    <a href="#about">O mně</a>
     <a href="#work">Portfolio</a>
     <a href="#vyroba">Výroba</a>
     <a href="#restaurovani">Restaurování</a>
@@ -319,53 +190,62 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 </header>
 
 <section id="about">
-  <h2 class="s-head">O nás</h2>
+  <h2 class="s-head">O mně</h2>
   <div class="p-text-block">
-    <p>Jsme truhlářská dílna spojující tradiční řemeslo s moderním designem. Ať už hledáte originální kus nábytku do nového interiéru, nebo chcete vdechnout život starožitnému klenotu, přistupujeme ke každému projektu s maximální péčí a respektem k materiálu.</p>
-    <p style="margin-top:20px;">Dřevo je pro nás víc než materiál – je to živý prvek, který utváří atmosféru domova. Nabízíme kompletní servis od prvotního návrhu přes výrobu až po finální montáž či renovaci.</p>
+    <p>Jsem truhlář z Dolního Slivna, nedaleko Benátek nad Jizerou v okrese Mladá Boleslav. Ke dřevu a celému řemeslu mám hluboký respekt a cit. Práce je pro mě posláním a zakládám si na precizním detailu.</p>
+    <p style="margin-top:20px;">Ať už jde o výrobu nového kusu přesně na míru vašemu domovu, nebo o záchranu starožitnosti, ke každé zakázce přistupuji individuálně a s poctivostí tradičního řemesla.</p>
   </div>
 </section>
 
 <section id="work" style="padding: 0 10vw;">
-  <div class="slider-highlight-wrapper" onclick="openGallery()">
+  <div class="slider-highlight-wrapper">
     <div class="slider-inner-bg">
-      <div class="p-slider" id="p-slider" role="region" aria-label="Hlavní portfolio slideshow">
-        </div>
-      <div class="gallery-cta">Otevřít galerii</div>
+      <div class="p-slider" id="p-slider" role="region" aria-label="Hlavní portfolio slideshow"></div>
+      <div class="gallery-cta-container">
+        <button class="gallery-cta" onclick="openGallery('vyroba')">Galerie Výroba</button>
+        <button class="gallery-cta" onclick="openGallery('res')">Galerie Restaurování</button>
+      </div>
     </div>
   </div>
 </section>
 
 <div class="g-full" id="g-full" aria-hidden="true">
-  <div class="g-close" id="g-close" aria-label="Zavřít galerii">&times;</div>
-  <h2 class="s-head" id="g-title" style="margin-bottom: 30px; color:#fff;">Galerie prací</h2>
+  <div class="g-controls">
+    <button class="g-btn" id="g-back" style="display:none;" onclick="backToGrid()">← Zpět na přehled</button>
+    <button class="g-btn g-close" id="g-close" onclick="closeGallery()">&times;</button>
+  </div>
+  <h2 class="s-head" id="g-title" style="margin-bottom: 30px; color:#fff;">Galerie</h2>
   <div class="g-grid" id="g-grid"></div>
-  <div id="zoom-container"></div>
+  <div id="flip-container">
+    <button class="flip-nav flip-prev" onclick="flipImage(-1)">&#10094;</button>
+    <div id="flip-img-wrapper" style="position:relative; width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>
+    <button class="flip-nav flip-next" onclick="flipImage(1)">&#10095;</button>
+  </div>
 </div>
 
 <section id="vyroba">
   <h2 class="s-head" style="margin-top: 20px;">Výroba</h2>
-  <div class="p-text-block"><p>Vytváříme jedinečné kusy nábytku přesně podle vašich představ a prostorových možností. Pracujeme s masivním dřevem i moderními materiály, abychom docílili perfektní funkčnosti a estetiky.</p></div>
+  <div class="p-text-block"><p>Vytvářím nábytek podle vašich představ s maximálním důrazem na kvalitu a funkčnost. Pracuji s masivem i moderními materiály.</p></div>
   <div class="s-grid">
-    <div class="s-item"><h3>Nábytek na míru</h3><p>Solitérní kusy, komody, stoly a postele navržené pro váš interiér.</p></div>
-    <div class="s-item"><h3>Vestavné prvky</h3><p>Vestavné skříně, šatny a úložné prostory s důrazem na detail.</p></div>
-    <div class="s-item"><h3>Kuchyně a jídelny</h3><p>Kompletní realizace kuchyňských linek a jídelních setů.</p></div>
-    <div class="s-item"><h3>Dveře a zárubně</h3><p>Výroba interiérových i vchodových dveří včetně obložkových zárubní.</p></div>
-    <div class="s-item"><h3>Schodiště</h3><p>Samonosná i obkladová schodiště z kvalitního masivu.</p></div>
-    <div class="s-item"><h3>Designové doplňky</h3><p>Drobné truhlářské výrobky, obklady stěn a atypické prvky.</p></div>
+    <div class="s-item"><h3>Nábytek na míru</h3><p>Solitéry, stoly a postele navržené pro váš interiér.</p></div>
+    <div class="s-item"><h3>Vestavné prvky</h3><p>Vestavné skříně a úložné prostory do posledního milimetru.</p></div>
+    <div class="s-item"><h3>Kuchyně a jídelny</h3><p>Realizace kuchyňských linek a pevných jídelních setů.</p></div>
+    <div class="s-item"><h3>Dveře a zárubně</h3><p>Interiérové i vchodové dveře z poctivého dřeva.</p></div>
+    <div class="s-item"><h3>Schodiště</h3><p>Obklady i samonosná schodiště, která vydrží generace.</p></div>
+    <div class="s-item"><h3>Doplňky</h3><p>Drobné práce, obklady stěn a originální interiérové detaily.</p></div>
   </div>
 </section>
 
 <section id="restaurovani">
   <h2 class="s-head" style="margin-top: 20px;">Restaurování</h2>
-  <div class="p-text-block"><p>Vracíme krásu a funkčnost starému nábytku. Specializujeme se na citlivé opravy, které zachovávají historickou hodnotu a patinu, a zároveň zajišťují další dlouholeté užívání.</p></div>
+  <div class="p-text-block"><p>Vracím život historickému nábytku. Provádím citlivé opravy konstrukcí i povrchů s ohledem na zachování původního rázu a patiny.</p></div>
   <div class="s-grid">
-    <div class="s-item"><h3>Renovace povrchů</h3><p>Obnova šelakových politur, voskování, moření a lakování.</p></div>
-    <div class="s-item"><h3>Konstrukční opravy</h3><p>Zpevnění spojů, klížení rozviklaných částí a doplnění chybějících prvků.</p></div>
-    <div class="s-item"><h3>Opravy dýhování</h3><p>Lokální vyspravení poškozené dýhy a intarzií.</p></div>
-    <div class="s-item"><h3>Výměna kování</h3><p>Oprava zámků, pantů a dobových úchytek nebo jejich náhrada.</p></div>
-    <div class="s-item"><h3>Ošetření dřeva</h3><p>Likvidace červotoče a preventivní ochrana proti škůdcům.</p></div>
-    <div class="s-item"><h3>Čalounické práce</h3><p>Zajištění přečalounění sedacího nábytku v rámci renovace.</p></div>
+    <div class="s-item"><h3>Renovace povrchů</h3><p>Obnova politur, lakování a moření do původních odstínů.</p></div>
+    <div class="s-item"><h3>Konstrukční opravy</h3><p>Zpevnění spojů a doplnění poškozených nebo chybějících částí.</p></div>
+    <div class="s-item"><h3>Opravy dýhování</h3><p>Precizní lokální vyspravení a lepení dýhy i intarzií.</p></div>
+    <div class="s-item"><h3>Výměna kování</h3><p>Repase zámků, úchytek a doplnění dobového kování.</p></div>
+    <div class="s-item"><h3>Ošetření dřeva</h3><p>Ochrana proti škůdcům a kompletní sanace dřevokazného hmyzu.</p></div>
+    <div class="s-item"><h3>Čalounické práce</h3><p>Přečalounění v rámci celkové opravy historických sezení.</p></div>
   </div>
 </section>
 
@@ -373,29 +253,21 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   <h2 class="s-head">Kontakt</h2>
   <div class="contact-zone">
     <div class="c-info-card">
-      <div class="c-info-row"><small>Lokalita</small><p>Dolní Slivno 118, 294 78</p></div>
+      <div class="c-info-row"><small>Lokalita</small><p>Dolní Slivno 118<br>Okres Mladá Boleslav</p></div>
       <div class="c-info-row"><small>Email</small><p>Blazek-truhlar@seznam.cz</p></div>
-      <div class="c-info-row"><small>Facebook</small><p>Sledujte naše novinky níže.</p></div>
+      <div class="c-info-row"><small>Facebook</small><p>Sledujte mou aktuální práci níže.</p></div>
     </div>
-
     <div class="p-text-block">
-      <div id="fb-widget-placeholder" style="border-radius:6px;overflow:hidden;border:1px solid rgba(30,30,30,0.03);background:#fff;padding:8px">
-        </div>
+      <div id="fb-widget-placeholder" style="border-radius:6px;overflow:hidden;border:1px solid rgba(30,30,30,0.03);background:#fff;padding:8px"></div>
     </div>
   </div>
 </section>
 
 <div class="cert-section">
   <div class="cert-anim-box">
-    <div class="cert-card c-primary" onclick="openZoom('https://i.imgur.com/QDIR8Ol.jpeg')">
-      <img src="https://i.imgur.com/QDIR8Ol.jpeg" alt="Certifikát o dotaci">
-    </div>
-    <div class="cert-card c-tertiary" onclick="openZoom('https://i.imgur.com/2iyTUh0.jpeg')">
-      <img src="https://i.imgur.com/2iyTUh0.jpeg" alt="Certifikát">
-    </div>
-    <div class="cert-card c-secondary" onclick="openZoom('https://i.imgur.com/ikwzhMW.jpeg')">
-       <img src="https://i.imgur.com/ikwzhMW.jpeg" alt="Nové vybavení dílny">
-    </div>
+    <div class="cert-card c-primary"><img src="https://i.imgur.com/QDIR8Ol.jpeg" alt="Certifikát o dotaci"></div>
+    <div class="cert-card c-tertiary"><img src="https://i.imgur.com/2iyTUh0.jpeg" alt="Certifikát"></div>
+    <div class="cert-card c-secondary"><img src="https://i.imgur.com/ikwzhMW.jpeg" alt="Nové vybavení dílny"></div>
   </div>
 </div>
 
@@ -403,54 +275,37 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 
 <footer>
   <div class="f-main">
-    <div><span class="f-brand">MB BLAŽEK</span><p>Zakázková výroba · restaurování · design</p></div>
-    <div class="f-col"><h4>Rychlé</h4><ul class="f-links"><li><a href="#vyroba">Výroba</a></li><li><a href="#restaurovani">Restaurování</a></li><li><a href="#work">Portfolio</a></li></ul></div>
-    <div class="f-col"><h4>Odkazy</h4><ul class="f-links"><li><a href="https://m.facebook.com/100083111833665/" target="_blank" rel="noopener noreferrer">Facebook</a></li></ul></div>
-    <div class="f-col"><h4>Kontakt</h4><p>Dolní Slivno 118<br>Mladá Boleslav</p></div>
+    <div><span class="f-brand">MB BLAŽEK</span><p>Zakázková výroba · restaurování</p></div>
+    <div class="f-col"><h4>Rychlé odkazy</h4><ul class="f-links"><li><a href="#vyroba">Výroba</a></li><li><a href="#restaurovani">Restaurování</a></li><li><a href="#work">Portfolio</a></li></ul></div>
+    <div class="f-col"><h4>Sítě</h4><ul class="f-links"><li><a href="https://m.facebook.com/100083111833665/" target="_blank" rel="noopener noreferrer">Facebook</a></li></ul></div>
+    <div class="f-col"><h4>Adresa</h4><p>Dolní Slivno 118<br>Mladá Boleslav, 294 78</p></div>
   </div>
   <div class="f-bottom">
-    <p>&copy; 2026 Umělecké truhlářství Martin Blažek. Všechna práva vyhrazena.</p>
-   <p class="made-by">
-  <a href="https://imagine-ofc.vercel.app" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" aria-label="Otevřít developera" title="Made by Imagine">
-    Made by Imagine
-  </a>
-</p>
+    <p>&copy; 2026 Umělecké truhlářství Martin Blažek.</p>
+    <p class="made-by"><a href="https://imagine-ofc.vercel.app" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">Made by Imagine</a></p>
   </div>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
 (function() {
   const FB_PAGE_URL = 'https://m.facebook.com/100083111833665/';
-  const CERT_URL = 'https://i.imgur.com/QDIR8Ol.jpeg';
-  const SLIDE_INTERVAL = 4000;
-
-  const images = [
-"https://i.imgur.com/8TPuZpS.jpeg","https://i.imgur.com/CNhz3zG.jpeg","https://i.imgur.com/RKbJDDL.jpeg",
-"https://i.imgur.com/hzAIRpH.jpeg","https://i.imgur.com/KQJO6mJ.jpeg","https://i.imgur.com/yNnS8sy.jpeg",
-"https://i.imgur.com/U8UYy3P.jpeg","https://i.imgur.com/JQAPijW.jpeg","https://i.imgur.com/X8LKY9P.jpeg",
-"https://i.imgur.com/AUURa6K.jpeg","https://i.imgur.com/dEW4MYL.jpeg","https://i.imgur.com/rdu3en9.jpeg",
-"https://i.imgur.com/rtcsZcP.jpeg","https://i.imgur.com/6Kly0Jo.jpeg","https://i.imgur.com/xdQPXaT.jpeg",
-"https://i.imgur.com/wkZRWBs.jpeg","https://i.imgur.com/YAKBKA6.jpeg","https://i.imgur.com/5kfHpf3.jpeg",
-"https://i.imgur.com/Yd209jr.jpeg","https://i.imgur.com/vhcZlYp.jpeg","https://i.imgur.com/OHNMMzI.jpeg",
-"https://i.imgur.com/rgOb0Q5.jpeg","https://i.imgur.com/2AYo5f0.jpeg","https://i.imgur.com/P8ZFe7X.jpeg",
-"https://i.imgur.com/qTuZPg3.jpeg","https://i.imgur.com/7br33aG.jpeg","https://i.imgur.com/s6lzEWg.jpeg",
-"https://i.imgur.com/LnwvDFO.jpeg","https://i.imgur.com/0y848FY.jpeg","https://i.imgur.com/Omepy5t.jpeg",
-"https://i.imgur.com/1Kl3Ps5.jpeg","https://i.imgur.com/N2FpbSd.jpeg","https://i.imgur.com/YstxZrE.jpeg",
-"https://i.imgur.com/2TWSjJ8.jpeg","https://i.imgur.com/HKhJNwX.jpeg","https://i.imgur.com/xBd92Vb.jpeg",
-"https://i.imgur.com/XmK5JzN.jpeg","https://i.imgur.com/uhx68ul.jpeg","https://i.imgur.com/LFYk7m7.jpeg",
-"https://i.imgur.com/3Zyye2U.jpeg","https://i.imgur.com/y8Gnov6.jpeg","https://i.imgur.com/jYMr4yE.jpeg",
-"https://i.imgur.com/B7SQZBI.jpeg","https://i.imgur.com/nJPhZnX.jpeg","https://i.imgur.com/YEeiJex.jpeg",
-"https://i.imgur.com/HlplqOP.jpeg","https://i.imgur.com/OiyuZz8.jpeg","https://i.imgur.com/euih9GA.jpeg",
-"https://i.imgur.com/h6SMPi8.jpeg","https://i.imgur.com/fgPxLfE.jpeg","https://i.imgur.com/BbBbxyM.jpeg",
-"https://i.imgur.com/CJ3QSwu.jpeg","https://i.imgur.com/QjU2rCJ.jpeg","https://i.imgur.com/GxJUQ0L.jpeg",
-"https://i.imgur.com/tpxfLkv.jpeg","https://i.imgur.com/WPNUpqY.jpeg","https://i.imgur.com/bDjcZeL.jpeg",
-"https://i.imgur.com/sO1yS2B.jpeg","https://i.imgur.com/fpumapm.jpeg","https://i.imgur.com/iCmTeG2.jpeg",
-"https://i.imgur.com/Mn4JFmB.jpeg","https://i.imgur.com/CHugdrN.jpeg","https://i.imgur.com/t8cstth.jpeg",
-"https://i.imgur.com/gUfyB7b.jpeg","https://i.imgur.com/wXBEEAk.jpeg","https://i.imgur.com/sEIj339.jpeg",
-"https://i.imgur.com/MF7dhcC.jpeg"
-  ];
+  const galData = {
+    res: {
+      title: 'Galerie Restaurování',
+      prefix: 'Res',
+      counts: { a:2, b:2, c:5, d:2, e:4, f:2, g:2, h:2, i:2, j:2, k:2, l:2, m:4, n:2, o:2, p:2, q:2, r:2, s:2, t:2 }
+    },
+    vyroba: {
+      title: 'Galerie Výroba',
+      prefix: 'Vyroba',
+      counts: { a:3, b:3, c:2, d:2, e:3, f:1, g:2, h:2 }
+    }
+  };
+  const bUrl = 'https://www.utmb.cz/photo/';
+  let currentFlipUrls = [];
+  let currentFlipIdx = 0;
+  let isFlipping = false;
 
   const cursor = document.getElementById('c-cursor');
   let cursorActive = false;
@@ -488,44 +343,20 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   document.querySelectorAll('section, .cert-section').forEach(s => observer.observe(s));
 
   window.addEventListener('scroll', () => {
-    const n = document.getElementById('nav');
-    n.classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  let lastScroll = 0;
-  const bCont = document.getElementById('bubble-field');
-  window.addEventListener('scroll', () => {
-    let now = window.pageYOffset;
-    let diff = Math.abs(now - lastScroll);
-    if(diff > 40){
-      const count = Math.random() > 0.5 ? 2 : 1;
-      for(let i=0;i<count;i++) createBubble();
-    }
-    lastScroll = now;
-  });
-
-  function createBubble(){
-    const b = document.createElement('div');
-    b.className = 'b-drop';
-    let size = Math.floor(Math.random() * 30) + 15; 
-    b.style.width = size + 'px';
-    b.style.height = size + 'px';
-    b.style.left = (5 + Math.random() * 90) + 'vw';
-    b.style.top = (85 + Math.random() * 10) + 'vh';
-    b.style.animationDuration = (2.5 + Math.random() * 2) + 's';
-    bCont.appendChild(b);
-    setTimeout(() => b.remove(), 4000);
-  }
-
+  const sliderBgImages = [
+    "https://i.imgur.com/8TPuZpS.jpeg","https://i.imgur.com/CNhz3zG.jpeg","https://i.imgur.com/RKbJDDL.jpeg",
+    "https://i.imgur.com/hzAIRpH.jpeg","https://i.imgur.com/KQJO6mJ.jpeg"
+  ];
   const slider = document.getElementById('p-slider');
   let slideIdx = 0;
-  const HERO_COUNT = Math.min(8, images.length);
-
   function initSlider(){
-    for(let i=0;i<HERO_COUNT;i++){
+    for(let i=0;i<sliderBgImages.length;i++){
       const div = document.createElement('div');
       div.className = 'p-slide' + (i===0 ? ' active' : '');
-      div.style.backgroundImage = `url(${images[i]})`;
+      div.style.backgroundImage = `url(${sliderBgImages[i]})`;
       div.innerHTML = '<div class="p-slide-overlay"></div>';
       slider.appendChild(div);
     }
@@ -534,60 +365,112 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
       slides[slideIdx].classList.remove('active');
       slideIdx = (slideIdx + 1) % slides.length;
       slides[slideIdx].classList.add('active');
-    }, SLIDE_INTERVAL);
+    }, 4000);
   }
   initSlider();
 
-  window.openGallery = function(){
-    const gFull = document.getElementById('g-full');
+  window.openGallery = function(type){
+    const data = galData[type];
     const gGrid = document.getElementById('g-grid');
-    const zCont = document.getElementById('zoom-container');
-    const gTitle = document.getElementById('g-title');
-    
-    gTitle.style.display = 'block';
-    gGrid.style.display = 'grid';
-    zCont.style.display = 'none';
+    document.getElementById('g-title').innerText = data.title;
     gGrid.innerHTML = '';
     
-    images.forEach(src => {
+    Object.keys(data.counts).forEach(letter => {
+      const firstImg = `${bUrl}${data.prefix}-${letter}-1.jpg`;
       const wrap = document.createElement('div');
       wrap.className = 'g-item';
-      wrap.innerHTML = `<img src="${src}" loading="lazy" alt="Práce">`;
+      wrap.onclick = () => openFlipGroup(type, letter);
+      wrap.innerHTML = `<img src="${firstImg}" loading="lazy" alt="Série ${letter.toUpperCase()}"><div class="g-item-label">Série ${letter.toUpperCase()}</div>`;
       gGrid.appendChild(wrap);
     });
-    gFull.style.display = 'block';
-    gFull.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  };
 
-  window.openZoom = function(src){
+    document.getElementById('g-back').style.display = 'none';
+    document.getElementById('g-grid').style.display = 'grid';
+    document.getElementById('flip-container').style.display = 'none';
+    
     const gFull = document.getElementById('g-full');
-    const gGrid = document.getElementById('g-grid');
-    const zCont = document.getElementById('zoom-container');
-    const gTitle = document.getElementById('g-title');
-
-    gGrid.style.display = 'none';
-    gTitle.style.display = 'none';
-    zCont.style.display = 'flex';
-    zCont.innerHTML = `<img src="${src}" id="zoom-img">`;
-
     gFull.style.display = 'block';
     gFull.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
   };
 
-  document.getElementById('g-close').addEventListener('click', () => {
+  window.openFlipGroup = function(type, letter){
+    const data = galData[type];
+    const count = data.counts[letter];
+    currentFlipUrls = [];
+    for(let i=1; i<=count; i++){
+      currentFlipUrls.push(`${bUrl}${data.prefix}-${letter}-${i}.jpg`);
+    }
+    currentFlipIdx = 0;
+    
+    document.getElementById('g-grid').style.display = 'none';
+    document.getElementById('g-back').style.display = 'block';
+    document.getElementById('flip-container').style.display = 'flex';
+    document.getElementById('g-title').innerText = `Série ${letter.toUpperCase()} (${count} fotek)`;
+    
+    renderFlipImage('none');
+  };
+
+  window.backToGrid = function(){
+    document.getElementById('flip-container').style.display = 'none';
+    document.getElementById('g-grid').style.display = 'grid';
+    document.getElementById('g-back').style.display = 'none';
+    const type = currentFlipUrls[0].includes('Vyroba') ? 'vyroba' : 'res';
+    document.getElementById('g-title').innerText = galData[type].title;
+  };
+
+  window.closeGallery = function(){
     document.getElementById('g-full').style.display = 'none';
     document.body.style.overflow = 'auto';
-  });
+  };
+
+  window.flipImage = function(dir){
+    if(isFlipping) return;
+    const newIdx = currentFlipIdx + dir;
+    if(newIdx < 0 || newIdx >= currentFlipUrls.length) return;
+    isFlipping = true;
+    
+    const wrapper = document.getElementById('flip-img-wrapper');
+    const oldImg = wrapper.querySelector('img');
+    const newImg = document.createElement('img');
+    newImg.src = currentFlipUrls[newIdx];
+    newImg.className = 'flip-img';
+    
+    if(dir > 0){
+      oldImg.classList.add('page-turn-next-out');
+      newImg.classList.add('page-turn-next-in');
+    } else {
+      oldImg.classList.add('page-turn-prev-out');
+      newImg.classList.add('page-turn-prev-in');
+    }
+    wrapper.appendChild(newImg);
+    
+    setTimeout(() => {
+      oldImg.remove();
+      newImg.className = 'flip-img';
+      currentFlipIdx = newIdx;
+      isFlipping = false;
+    }, 600);
+  };
+
+  function renderFlipImage(){
+    const wrapper = document.getElementById('flip-img-wrapper');
+    wrapper.innerHTML = `<img src="${currentFlipUrls[currentFlipIdx]}" class="flip-img">`;
+  }
 
   document.addEventListener('keydown', e => { 
-    if(e.key === 'Escape'){ document.getElementById('g-full').style.display = 'none'; document.body.style.overflow = 'auto'; } 
+    if(document.getElementById('g-full').style.display === 'block'){
+      if(e.key === 'Escape') closeGallery();
+      if(document.getElementById('flip-container').style.display === 'flex'){
+        if(e.key === 'ArrowRight') flipImage(1);
+        if(e.key === 'ArrowLeft') flipImage(-1);
+      }
+    }
   });
 
   (function renderFb(){
     const holder = document.getElementById('fb-widget-placeholder');
-    if(!FB_PAGE_URL){ holder.innerHTML = '<div style="padding:12px;color:#666">Facebook link chybí</div>'; return; }
+    if(!FB_PAGE_URL) return;
     const href = encodeURIComponent(FB_PAGE_URL);
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.facebook.com/plugins/page.php?href=${href}&tabs=timeline&width=320&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`;
@@ -606,18 +489,11 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
     L.marker([50.310472, 14.735444]).addTo(map).bindPopup('<b>Truhlářství Blažek</b>').openPopup();
   } catch(e) {}
 
-  (function preload(){
-    images.slice(0, 10).forEach(u => { const i = new Image(); i.src = u; });
-    const c = new Image(); c.src = CERT_URL;
-  })();
-
   function isTouch() { return ('ontouchstart' in window) || navigator.maxTouchPoints > 0; }
   if(isTouch()){
     const cur = document.getElementById('c-cursor');
     if(cur) cur.style.display = 'none';
   }
-
-  console.log("%c Made by Imagine", "color: #d1b595; font-size: 14px; background: #1a1a1a; padding: 6px;");
 
 })();
 </script>
