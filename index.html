@@ -10,7 +10,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Patrick+Hand&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
   --p-bg: #fbf8f3;
@@ -212,14 +211,14 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
 <div class="g-full" id="g-full" aria-hidden="true">
   <div class="g-controls">
     <button class="g-btn" id="g-back" style="display:none;" onclick="backToGrid()">← Zpět na přehled</button>
-    <button class="g-btn g-close" id="g-close" onclick="closeGallery()">&times;</button>
+    <button class="g-btn g-close" id="g-close" onclick="closeGallery()">×</button>
   </div>
   <h2 class="s-head" id="g-title" style="margin-bottom: 30px; color:#fff;">Galerie</h2>
   <div class="g-grid" id="g-grid"></div>
   <div id="flip-container">
-    <button class="flip-nav flip-prev" onclick="flipImage(-1)">&#10094;</button>
+    <button class="flip-nav flip-prev" onclick="flipImage(-1)">❮</button>
     <div id="flip-img-wrapper" style="position:relative; width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>
-    <button class="flip-nav flip-next" onclick="flipImage(1)">&#10095;</button>
+    <button class="flip-nav flip-next" onclick="flipImage(1)">❯</button>
   </div>
 </div>
 
@@ -271,7 +270,7 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
   </div>
 </div>
 
-<div id="map-canvas"></div>
+<div id="map-canvas"><iframe src="https://maps.google.com/maps?q=Doln%C3%AD%20Slivno%20118,%20Mlad%C3%A1%20Boleslav&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></div>
 
 <footer>
   <div class="f-main">
@@ -281,12 +280,11 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
     <div class="f-col"><h4>Adresa</h4><p>Dolní Slivno 118<br>Mladá Boleslav, 294 78</p></div>
   </div>
   <div class="f-bottom">
-    <p>&copy; 2026 Umělecké truhlářství Martin Blažek.</p>
+    <p>© 2026 Umělecké truhlářství Martin Blažek.</p>
     <p class="made-by"><a href="https://imagine-ofc.vercel.app" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">Made by Imagine</a></p>
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function() {
   const FB_PAGE_URL = 'https://m.facebook.com/100083111833665/';
@@ -482,12 +480,6 @@ footer{background:#111;padding:100px 10vw 60px;color:#888}
     iframe.setAttribute('frameborder','0');
     holder.appendChild(iframe);
   })();
-
-  try {
-    const map = L.map('map-canvas', { scrollWheelZoom: false }).setView([50.310472, 14.735444], 14);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-    L.marker([50.310472, 14.735444]).addTo(map).bindPopup('<b>Truhlářství Blažek</b>').openPopup();
-  } catch(e) {}
 
   function isTouch() { return ('ontouchstart' in window) || navigator.maxTouchPoints > 0; }
   if(isTouch()){
